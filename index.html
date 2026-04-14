@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unetix - Instalación de Cargadores para Autos Eléctricos</title>
+    <title>Unetix - Energía Solar, Electromovilidad y Seguridad</title>
     
     <!-- Tailwind CSS (Para todos los estilos, colores y animaciones) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -81,20 +81,20 @@
                 <div>
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 mb-6 backdrop-blur-sm">
                         <span class="flex h-2 w-2 rounded-full bg-emerald-400"></span>
-                        <span class="text-sm font-medium text-slate-200">Especialistas en electromovilidad residencial</span>
+                        <span class="text-sm font-medium text-slate-200">Soluciones integrales de energía y seguridad</span>
                     </div>
                     <h1 class="text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-                        Tu estación de carga personal, <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-emerald-500">en tu propia casa.</span>
+                        Hogares más inteligentes, <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-emerald-500">sustentables y seguros.</span>
                     </h1>
                     <p class="text-lg text-slate-300 mb-8 max-w-xl">
-                        Despierta todos los días con la batería al 100%. En Unetix instalamos el cargador de tu auto eléctrico de forma segura, rápida y con normativas certificadas.
+                        En Unetix transformamos tu casa. Somos expertos en instalación de estaciones de carga para vehículos eléctricos, sistemas de energía solar y videovigilancia de alta tecnología.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <a href="#contacto" class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-800 to-emerald-600 hover:from-emerald-700 hover:to-emerald-500 text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg shadow-emerald-900/50">
-                            Instala tu cargador hoy <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            Cotizar mi proyecto <i data-lucide="chevron-right" class="w-5 h-5"></i>
                         </a>
                         <a href="#servicios" class="flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 text-white px-8 py-4 rounded-full font-bold text-lg transition-all backdrop-blur-sm">
-                            Conocer más
+                            Ver servicios
                         </a>
                     </div>
                 </div>
@@ -102,32 +102,51 @@
                 <!-- Animación oculta en orientación vertical (portrait) -->
                 <div class="relative mt-12 lg:mt-0 w-full max-w-md mx-auto lg:max-w-none portrait:hidden">
                     <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-3xl shadow-2xl relative z-10">
-                        <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+                        <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
                             <div>
-                                <h3 class="font-bold text-xl text-white">Estado de Carga</h3>
-                                <p class="text-emerald-400 text-sm">Conectado y cargando</p>
+                                <h3 class="font-bold text-xl text-white">Panel de Control Hogar</h3>
+                                <p class="text-emerald-400 text-sm">Sistemas optimizados y en línea</p>
                             </div>
                             <div class="h-12 w-12 bg-slate-800 rounded-full flex items-center justify-center border border-slate-700">
-                                <i data-lucide="zap" class="text-emerald-400 w-6 h-6"></i>
+                                <i data-lucide="home" class="text-emerald-400 w-6 h-6"></i>
                             </div>
                         </div>
                         
-                        <div class="relative w-full h-4 bg-slate-800 rounded-full overflow-hidden mb-4">
-                            <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-600 to-emerald-400 w-[78%] rounded-full animate-pulse"></div>
-                        </div>
-                        <div class="flex justify-between text-slate-400 text-sm font-medium">
-                            <span>Batería</span>
-                            <span class="text-white font-bold text-lg">78%</span>
-                        </div>
-                        
-                        <div class="mt-8 grid grid-cols-2 gap-4">
-                            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700">
-                                <p class="text-slate-400 text-xs mb-1">Tiempo restante</p>
-                                <p class="text-white font-bold">1h 45m</p>
+                        <div class="space-y-5">
+                            <!-- Indicador Solar -->
+                            <div>
+                                <div class="flex justify-between text-sm font-medium mb-2">
+                                    <span class="flex items-center gap-2 text-slate-300"><i data-lucide="sun" class="w-4 h-4 text-amber-400"></i> Energía Solar</span>
+                                    <span class="text-white font-bold">Generando (3.2 kW)</span>
+                                </div>
+                                <div class="relative w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-amber-500 to-amber-300 w-[65%] rounded-full animate-pulse"></div>
+                                </div>
                             </div>
-                            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700">
-                                <p class="text-slate-400 text-xs mb-1">Potencia</p>
-                                <p class="text-white font-bold">7.4 kW</p>
+                            
+                            <!-- Indicador EV -->
+                            <div>
+                                <div class="flex justify-between text-sm font-medium mb-2">
+                                    <span class="flex items-center gap-2 text-slate-300"><i data-lucide="car-front" class="w-4 h-4 text-emerald-400"></i> Carga de Vehículo</span>
+                                    <span class="text-white font-bold">78% (1h 45m rest.)</span>
+                                </div>
+                                <div class="relative w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-600 to-emerald-400 w-[78%] rounded-full animate-pulse"></div>
+                                </div>
+                            </div>
+
+                            <!-- Indicador Seguridad -->
+                            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 flex items-center justify-between mt-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-10 w-10 bg-emerald-900/50 rounded-full flex items-center justify-center">
+                                        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Cámaras y Alarma</p>
+                                        <p class="text-slate-400 text-xs">Sistema Armado y Vigilando</p>
+                                    </div>
+                                </div>
+                                <div class="h-3 w-3 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]"></div>
                             </div>
                         </div>
                     </div>
@@ -137,46 +156,49 @@
             </div>
         </section>
 
-        <!-- PRESENTACIÓN / QUÉ OFRECEMOS -->
+        <!-- PRESENTACIÓN / QUÉ OFRECEMOS (3 TORRES DE SERVICIO) -->
         <section id="servicios" class="py-24 bg-white relative">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="text-center max-w-3xl mx-auto mb-16">
                     <h2 class="text-3xl lg:text-4xl font-bold mb-4 text-slate-900">
-                        Instalaciones eléctricas de primer nivel para tu movilidad
+                        Tres pilares para modernizar tu propiedad
                     </h2>
                     <p class="text-lg text-slate-600">
-                        Unetix elimina la fricción de tener un vehículo eléctrico. Nos encargamos de todo el proceso técnico para que tú solo tengas que enchufar y disfrutar.
+                        Brindamos proyectos "llave en mano". Diseñamos, instalamos y garantizamos el funcionamiento de tecnologías que mejoran tu calidad de vida.
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Torre 1: EV Chargers -->
                     <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-emerald-900/5 transition-all group">
                         <div class="h-14 w-14 bg-emerald-50 text-emerald-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="shield-check" class="w-8 h-8"></i>
+                            <i data-lucide="plug-zap" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-3">Máxima Seguridad</h3>
+                        <h3 class="text-xl font-bold mb-3">Movilidad Sostenible</h3>
                         <p class="text-slate-600">
-                            Instalaciones realizadas por electricistas matriculados, cumpliendo estrictamente con las normativas locales y tableros de protección dedicados.
+                            Instalación profesional de cargadores para autos eléctricos (Wallbox, Tipo 1/2) en domicilios particulares. Aseguramos tableros exclusivos y máxima protección.
                         </p>
                     </div>
 
-                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-teal-900/5 transition-all group">
-                        <div class="h-14 w-14 bg-teal-50 text-teal-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="home" class="w-8 h-8"></i>
+                    <!-- Torre 2: Solar Energy -->
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-amber-900/5 transition-all group">
+                        <div class="h-14 w-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="sun" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-3">Adaptado a tu Hogar</h3>
+                        <h3 class="text-xl font-bold mb-3">Energía Solar</h3>
                         <p class="text-slate-600">
-                            Evaluamos la capacidad eléctrica de tu casa y diseñamos la mejor ruta para los cables, priorizando la estética y funcionalidad de tu garaje.
+                            Sistemas de paneles solares y bancos de baterías (Sistemas On-Grid y Off-Grid). Reduce tu factura eléctrica y asegura energía limpia frente a cortes de luz.
                         </p>
                     </div>
 
-                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-emerald-900/5 transition-all group">
-                        <div class="h-14 w-14 bg-emerald-50 text-emerald-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="car-front" class="w-8 h-8"></i>
+                    <!-- Torre 3: Security -->
+                    <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-slate-900/5 transition-all group">
+                        <div class="h-14 w-14 bg-slate-200 text-slate-700 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="cctv" class="w-8 h-8"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-3">Compatibilidad Universal</h3>
+                        <h3 class="text-xl font-bold mb-3">Seguridad y Control</h3>
                         <p class="text-slate-600">
-                            Instalamos cargadores Tipo 1, Tipo 2, Wallbox y conectores específicos de marca (Tesla, Audi, Nissan, etc.). Asesoramiento completo.
+                            Tranquilidad 24/7. Instalación y configuración de sistemas de cámaras de videovigilancia (CCTV) y alarmas inteligentes para monitorear tu propiedad desde el celular.
                         </p>
                     </div>
                 </div>
@@ -192,7 +214,7 @@
                             Un proceso de contratación simple y sin sorpresas
                         </h2>
                         <p class="text-lg text-slate-600 mb-8">
-                            Sabemos que tu tiempo es valioso. Hemos optimizado nuestro servicio para que tengas tu cargador listo en tiempo récord, sin dolores de cabeza.
+                            Ya sea que necesites paneles solares, cámaras o un cargador, nuestro método de trabajo garantiza un proyecto impecable de principio a fin.
                         </p>
 
                         <div class="space-y-8">
@@ -202,7 +224,7 @@
                                 </div>
                                 <div>
                                     <h4 class="text-xl font-bold mb-2">Contacto y Cotización Inicial</h4>
-                                    <p class="text-slate-600">Escríbenos contándonos qué auto tienes y en qué zona vives. Te enviamos un presupuesto estimado en el día.</p>
+                                    <p class="text-slate-600">Escríbenos contándonos qué servicio necesitas y en qué zona vives. Te enviamos una propuesta y presupuesto base estimado rápidamente.</p>
                                 </div>
                             </div>
 
@@ -211,8 +233,8 @@
                                     <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-700 text-white font-bold">2</div>
                                 </div>
                                 <div>
-                                    <h4 class="text-xl font-bold mb-2">Visita Técnica (Sin Cargo)</h4>
-                                    <p class="text-slate-600">Un técnico evalúa tu tablero principal y la ruta de cableado para definir el presupuesto final exacto.</p>
+                                    <h4 class="text-xl font-bold mb-2">Visita Técnica y Diseño</h4>
+                                    <p class="text-slate-600">Un técnico evalúa tu propiedad (tableros, techo, perímetros según el proyecto) para definir la ruta de instalación y el presupuesto final exacto.</p>
                                 </div>
                             </div>
 
@@ -221,45 +243,45 @@
                                     <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-700 text-white font-bold">3</div>
                                 </div>
                                 <div>
-                                    <h4 class="text-xl font-bold mb-2">Instalación y Prueba</h4>
-                                    <p class="text-slate-600">Realizamos la obra de forma limpia y rápida (generalmente en menos de 4 horas). Probamos la carga contigo.</p>
+                                    <h4 class="text-xl font-bold mb-2">Instalación y Configuración</h4>
+                                    <p class="text-slate-600">Realizamos la obra de forma prolija. Dejamos todo configurado en tus dispositivos y te enseñamos a utilizar tu nuevo sistema.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Cuadro de "Beneficios / Por qué elegirnos" -->
                     <div class="lg:w-1/2 w-full bg-slate-900 rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden shadow-2xl">
-                        <div class="absolute top-0 right-0 p-12 opacity-10">
-                            <i data-lucide="zap" class="w-48 h-48"></i>
+                        <div class="absolute top-0 right-0 p-12 opacity-5">
+                            <i data-lucide="shield-check" class="w-48 h-48"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-6 relative z-10">¿Qué incluye nuestro servicio base?</h3>
+                        <h3 class="text-2xl font-bold mb-6 relative z-10">¿Por qué elegir los servicios de Unetix?</h3>
                         <ul class="space-y-4 relative z-10">
                             <li class="flex items-start gap-3">
                                 <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Mano de obra de electricista certificado.</span>
+                                <span>Mano de obra especializada y técnicos matriculados.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Armado de tablero exclusivo para el cargador.</span>
+                                <span>Soluciones integradas: Todo lo resuelves con un solo proveedor.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Protecciones termo-magnéticas e interruptor diferencial (Disyuntor).</span>
+                                <span>Estricto cumplimiento de normativas eléctricas y de seguridad.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Hasta 10 metros de cableado envainado.</span>
+                                <span>Materiales, cableado y equipamiento de primeras marcas.</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Garantía escrita por 12 meses sobre la instalación.</span>
+                                <span>Garantía escrita por 12 meses sobre todas nuestras instalaciones.</span>
                             </li>
                         </ul>
                         <div class="mt-8 pt-8 border-t border-slate-700 relative z-10">
-                            <p class="text-slate-400 text-sm">Desde</p>
+                            <p class="text-slate-400 text-sm mb-2">Consulta por</p>
                             <div class="flex items-end gap-2">
-                                <span class="text-4xl font-bold text-white">Consultar</span>
-                                <span class="text-emerald-400 font-medium mb-1">Presupuesto personalizado</span>
+                                <span class="text-2xl font-bold text-emerald-400">Soluciones a Medida</span>
                             </div>
                         </div>
                     </div>
@@ -277,9 +299,9 @@
                             <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-emerald-500 rounded-full blur-3xl opacity-10 -z-10"></div>
                             
                             <div class="relative z-10">
-                                <h2 class="text-3xl lg:text-4xl font-bold mb-4">¿Listo para cargar en casa?</h2>
+                                <h2 class="text-3xl lg:text-4xl font-bold mb-4">¿Listo para transformar tu hogar?</h2>
                                 <p class="text-emerald-100 text-lg mb-12">
-                                    Déjanos tus datos o contáctanos directamente. Nuestro equipo técnico responderá todas tus dudas sin compromiso.
+                                    Déjanos tus datos o contáctanos directamente. Nuestro equipo técnico responderá todas tus dudas sin compromiso, sea para cargadores, paneles o cámaras.
                                 </p>
 
                                 <div class="space-y-6">
@@ -299,7 +321,7 @@
                                         </div>
                                         <div>
                                             <p class="text-sm text-emerald-200">Email</p>
-                                            <p class="font-bold text-lg">contacto@unetix.info</p>
+                                            <p class="font-bold text-lg">contacto@unetix.com.ar</p>
                                         </div>
                                     </div>
 
@@ -352,10 +374,10 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-1">Vehículo y Consulta</label>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Servicio y Consulta</label>
                                     <textarea rows="4" name="consulta" required
                                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none transition-all resize-none"
-                                              placeholder="Cuéntanos qué auto tienes o si el cargador ya lo compraste tú..."></textarea>
+                                              placeholder="Cuéntanos qué necesitas (Cargador VE, Paneles Solares, Cámaras de Seguridad)..."></textarea>
                                 </div>
                                 <button type="submit"
                                         class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-colors mt-2">
@@ -384,7 +406,7 @@
                 
                 <div class="text-center md:text-left">
                     <p>&copy; <span id="current-year"></span> Unetix. Todos los derechos reservados.</p>
-                    <p class="text-sm mt-1">Instaladores certificados de infraestructura de carga para VE.</p>
+                    <p class="text-sm mt-1">Soluciones integrales: Energía, Movilidad Sostenible y Seguridad.</p>
                 </div>
 
                 <div class="flex space-x-6">
@@ -439,7 +461,7 @@
                     <li>Modificación o actualización</li>
                     <li>Eliminación de tus datos</li>
                 </ul>
-                <p>Para ejercer estos derechos, podés contactarnos a: <strong>contacto@unetix.info</strong></p>
+                <p>Para ejercer estos derechos, podés contactarnos a: <strong>contacto@unetix.com.ar</strong></p>
 
                 <h2 class="text-xl font-bold text-slate-900">6. Cookies</h2>
                 <p>Nuestro sitio web puede utilizar cookies básicas para mejorar la experiencia del usuario. Estas no recopilan información personal identificable.</p>
@@ -448,7 +470,7 @@
                 <p>Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Los cambios serán publicados en esta misma página.</p>
 
                 <h2 class="text-xl font-bold text-slate-900">8. Contacto</h2>
-                <p>Si tenés preguntas sobre esta Política de Privacidad, podés contactarnos a:<br/>Email: <strong>contacto@unetix.info</strong></p>
+                <p>Si tenés preguntas sobre esta Política de Privacidad, podés contactarnos a:<br/>Email: <strong>contacto@unetix.com.ar</strong></p>
             </div>
         </div>
     </div>
@@ -472,7 +494,6 @@
                 <h4 class="font-bold text-slate-900 text-lg mt-4">1. Información que recopilamos</h4>
                 <p>Recopilamos únicamente la información que nos proporcionás de forma voluntaria al contactarnos, que puede incluir: Nombre, Número de teléfono, Dirección de correo electrónico.</p>
                 
-                <!-- (Resumen para el modal, para no hacerlo tan largo) -->
                 <h4 class="font-bold text-slate-900 text-lg mt-4">2. Uso de la información</h4>
                 <p>La información recopilada es utilizada exclusivamente para responder consultas, brindar información y contactarte.</p>
 
@@ -480,7 +501,7 @@
                 <p>Tus datos son almacenados de forma segura y no son compartidos, vendidos ni cedidos a terceros.</p>
 
                 <h4 class="font-bold text-slate-900 text-lg mt-4">Más información</h4>
-                <p>Para ver la política completa, visita nuestra página de <a href="#privacidad" onclick="togglePrivacyModal(false)" class="text-emerald-700 underline">Política de Privacidad</a> o contáctanos a: <strong>contacto@unetix.info</strong></p>
+                <p>Para ver la política completa, visita nuestra página de <a href="#privacidad" onclick="togglePrivacyModal(false)" class="text-emerald-700 underline">Política de Privacidad</a> o contáctanos a: <strong>contacto@unetix.com.ar</strong></p>
             </div>
 
             <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
