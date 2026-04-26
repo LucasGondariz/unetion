@@ -1,679 +1,1810 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unetion - Energía Solar, Domótica y Seguridad</title>
-    
-    <!-- Tailwind CSS (Para todos los estilos, colores y animaciones) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Iconos de Lucide -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unetion — Energía Solar, Domótica y Seguridad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bg:       #0c0c0c;
+  --bg2:      #141414;
+  --bg3:      #1c1c1c;
+  --border:   #272727;
+  --border2:  #333;
+  --txt:      #f2f0ed;
+  --txt2:     #a09e9b;
+  --txt3:     #5a5855;
 
-    <!-- Configuración para que respete tus tipografías -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        
-        /* Ocultar elementos para JavaScript */
-        .hidden { display: none !important; }
+  --orange:        oklch(67% 0.18 46);
+  --orange-bright: oklch(75% 0.17 50);
+  --orange-dim:    oklch(42% 0.14 46);
+  --orange-bg:     oklch(18% 0.06 46);
 
-        /* Animaciones para el Acordeón de Servicios */
-        .service-card {
-            transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .service-expanded {
-            flex-grow: 5;
-        }
-        .service-collapsed {
-            flex-grow: 1;
-        }
-    </style>
+  --green:        oklch(62% 0.17 152);
+  --green-bright: oklch(72% 0.15 150);
+  --green-dim:    oklch(38% 0.12 152);
+  --green-bg:     oklch(16% 0.05 152);
+
+  --blue:        oklch(64% 0.19 222);
+  --blue-bright: oklch(74% 0.17 215);
+  --blue-dim:    oklch(40% 0.15 222);
+  --blue-bg:     oklch(16% 0.06 222);
+
+  --red:        oklch(62% 0.18 25);
+  --red-bright: oklch(72% 0.16 28);
+  --red-dim:    oklch(40% 0.14 25);
+  --red-bg:     oklch(16% 0.06 25);
+
+  --font-d: 'Sora', sans-serif;
+  --font-b: 'DM Sans', sans-serif;
+
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--font-b);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 40px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(12,12,12,0.92);
+  backdrop-filter: blur(20px);
+  border-color: var(--border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+}
+.nav-wordmark {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.nav-wordmark span { color: var(--orange); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--txt2);
+  padding: 8px 14px;
+  border-radius: var(--r-sm);
+  transition: color 0.2s, background 0.2s;
+  letter-spacing: 0.01em;
+}
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.07); }
+.nav-cta {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--orange);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: var(--r-sm);
+  transition: background 0.2s, transform 0.2s;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-cta:hover { background: var(--orange-bright); transform: translateY(-1px); }
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--txt);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 68px; left: 0; right: 0; bottom: 0;
+  background: var(--bg);
+  z-index: 99;
+  padding: 32px 24px;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--txt2);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: #fff; }
+.mobile-menu .nav-cta {
+  margin-top: 24px;
+  text-align: center;
+  padding: 16px;
+  font-size: 15px;
+}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.hero-img {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  width: 100%; height: 100%;
+  filter: brightness(0.45) saturate(0.8);
+  transform: scale(1.03);
+  transition: transform 8s ease;
+}
+.hero-img.loaded { transform: scale(1); }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(12,12,12,0.98) 0%,
+    rgba(12,12,12,0.5) 40%,
+    rgba(12,12,12,0.1) 100%
+  );
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  padding: 120px 80px 96px;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-d);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 24px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 24px; height: 2px;
+  background: var(--orange);
+  border-radius: 2px;
+}
+.hero-h1 {
+  font-family: var(--font-d);
+  font-size: clamp(44px, 7vw, 80px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+  color: #fff;
+  margin-bottom: 24px;
+  text-wrap: balance;
+}
+.hero-h1 em {
+  font-style: normal;
+  color: var(--orange);
+}
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(242,240,237,0.7);
+  max-width: 520px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  text-wrap: pretty;
+}
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--orange);
+  color: #fff;
+  padding: 15px 32px;
+  border-radius: var(--r-sm);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: var(--orange-bright); transform: translateY(-2px); }
+.btn-outline {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 500;
+  background: transparent;
+  color: rgba(242,240,237,0.85);
+  padding: 15px 32px;
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-outline:hover { border-color: rgba(255,255,255,0.5); color: #fff; transform: translateY(-2px); }
+
+/* ── Hero carousel ── */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  width: 100%; height: 100%;
+  filter: brightness(0.45) saturate(0.8);
+  opacity: 0;
+  transition: opacity 1.4s ease, transform 8s ease;
+  transform: scale(1.04);
+}
+.hero-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Hero service chips ── */
+.hero-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(16px);
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.02em;
+  cursor: default;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.hero-chip.chip-active {
+  background: rgba(255,255,255,0.13);
+  border-color: rgba(255,255,255,0.35);
+}
+.hero-chip-icon {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hero-chip-label { white-space: nowrap; }
+.hero-chip-sub {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  margin-left: 2px;
+  display: none;
+}
+.hero-chip.chip-active .hero-chip-sub { display: inline; }
+
+/* ── Hero dots ── */
+.hero-dots {
+  position: absolute;
+  bottom: 40px; left: 80px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+.hero-dot {
+  width: 24px; height: 3px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  transition: background 0.3s, width 0.3s;
+}
+.hero-dot.active {
+  background: #fff;
+  width: 40px;
+}
+
+/* scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 40px; right: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+}
+.hero-scroll-line {
+  width: 1px; height: 56px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+.hero-scroll-label {
+  font-family: var(--font-d);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  writing-mode: vertical-lr;
+}
+
+/* Division badges in hero */
+.hero-divisions {
+  position: absolute;
+  top: 50%; right: 80px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 2;
+}
+.hdiv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+  backdrop-filter: blur(12px);
+  transition: all 0.2s;
+  cursor: default;
+}
+.hdiv:hover { transform: translateX(-4px); }
+.hdiv-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.hdiv-name {
+  font-family: var(--font-d);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hdiv-green  { background: rgba(22,62,30,0.6);  border-color: var(--green-dim); }
+.hdiv-blue   { background: rgba(18,36,72,0.6);  border-color: var(--blue-dim);  }
+.hdiv-red    { background: rgba(48,18,12,0.6);  border-color: var(--red-dim);   }
+
+/* ═══════════════════════════════════════════════
+   STATS BAR
+═══════════════════════════════════════════════ */
+.stats-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 80px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stat-item {
+  text-align: center;
+  padding: 8px 24px;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #fff;
+  line-height: 1;
+}
+.stat-num span { color: var(--orange); }
+.stat-label {
+  font-size: 12px;
+  color: var(--txt3);
+  margin-top: 6px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* ═══════════════════════════════════════════════
+   SECTION COMMON
+═══════════════════════════════════════════════ */
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.section-eyebrow::before {
+  content: '';
+  width: 20px; height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+.section-h2 {
+  font-family: var(--font-d);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: #fff;
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+.section-p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--txt2);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+/* ═══════════════════════════════════════════════
+   DIVISION SECTIONS (full-bleed alternating)
+═══════════════════════════════════════════════ */
+.divisions-header {
+  padding: 96px 80px 64px;
+  text-align: center;
+}
+.divisions-header .section-h2 { margin: 0 auto; max-width: 680px; }
+.divisions-header .section-p  { max-width: 520px; margin: 16px auto 0; }
+
+.div-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+  border-top: 1px solid var(--border);
+}
+.div-section.reverse { direction: rtl; }
+.div-section.reverse > * { direction: ltr; }
+
+.div-img-wrap {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+.div-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s ease;
+}
+.div-img-wrap:hover .div-img { transform: scale(1.04); }
+.div-img-overlay {
+  position: absolute;
+  inset: 0;
+}
+.div-tag {
+  position: absolute;
+  top: 28px; left: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+  backdrop-filter: blur(12px);
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  z-index: 2;
+}
+.div-tag-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.div-content {
+  padding: 72px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--bg);
+}
+.div-content-inner { max-width: 440px; }
+.div-name-display {
+  font-family: var(--font-d);
+  font-size: clamp(56px, 7vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  margin-bottom: 24px;
+  opacity: 0.12;
+  user-select: none;
+  pointer-events: none;
+  position: relative;
+  left: -4px;
+}
+.div-green  .div-name-display { color: var(--green);    opacity: 1; background: linear-gradient(135deg, var(--green) 0%, var(--green-dim) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.div-smart  .div-name-display { color: var(--blue);     opacity: 1; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dim) 100%);  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.div-security .div-name-display { color: var(--red);   opacity: 1; background: linear-gradient(135deg, var(--red) 0%, var(--red-dim) 100%);    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.div-ul {
+  list-style: none;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.div-ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--txt2);
+  font-weight: 300;
+  line-height: 1.5;
+}
+.div-ul-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+.div-cta {
+  margin-top: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 13px 28px;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+.div-cta-arrow { transition: transform 0.2s; }
+.div-cta:hover .div-cta-arrow { transform: translateX(4px); }
+
+/* GREEN */
+.div-green .div-img-overlay { background: linear-gradient(135deg, rgba(0,30,10,0.5) 0%, transparent 60%); }
+.div-green .div-tag { background: rgba(10,40,18,0.8); border-color: var(--green-dim); color: var(--green-bright); }
+.div-green .div-tag-dot { background: var(--green); }
+.div-green .section-eyebrow { color: var(--green); }
+.div-green .div-ul-dot { background: var(--green); }
+.div-green .div-cta { color: var(--green-bright); border-color: var(--green-dim); background: var(--green-bg); }
+.div-green .div-cta:hover { background: var(--green-dim); border-color: var(--green); color: #fff; }
+
+/* SMART */
+.div-smart .div-img-overlay { background: linear-gradient(135deg, rgba(0,15,40,0.5) 0%, transparent 60%); }
+.div-smart .div-tag { background: rgba(8,20,55,0.8); border-color: var(--blue-dim); color: var(--blue-bright); }
+.div-smart .div-tag-dot { background: var(--blue); }
+.div-smart .section-eyebrow { color: var(--blue); }
+.div-smart .div-ul-dot { background: var(--blue); }
+.div-smart .div-cta { color: var(--blue-bright); border-color: var(--blue-dim); background: var(--blue-bg); }
+.div-smart .div-cta:hover { background: var(--blue-dim); border-color: var(--blue); color: #fff; }
+
+/* SECURITY */
+.div-security .div-img-overlay { background: linear-gradient(135deg, rgba(40,8,0,0.5) 0%, transparent 60%); }
+.div-security .div-tag { background: rgba(50,12,6,0.8); border-color: var(--red-dim); color: var(--red-bright); }
+.div-security .div-tag-dot { background: var(--red); }
+.div-security .section-eyebrow { color: var(--red); }
+.div-security .div-ul-dot { background: var(--red); }
+.div-security .div-cta { color: var(--red-bright); border-color: var(--red-dim); background: var(--red-bg); }
+.div-security .div-cta:hover { background: var(--red-dim); border-color: var(--red); color: #fff; }
+
+/* ═══════════════════════════════════════════════
+   PROCESS
+═══════════════════════════════════════════════ */
+.process {
+  padding: 100px 80px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.process-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 64px;
+  flex-wrap: wrap;
+}
+.process-header .section-eyebrow { color: var(--orange); }
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.process-step {
+  background: var(--bg3);
+  padding: 44px 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s;
+}
+.process-step:hover { background: #222; }
+.process-num {
+  font-family: var(--font-d);
+  font-size: 72px;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  color: var(--border2);
+  line-height: 1;
+  margin-bottom: 24px;
+  user-select: none;
+}
+.process-step-title {
+  font-family: var(--font-d);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.process-step-desc {
+  font-size: 14px;
+  color: var(--txt3);
+  font-weight: 300;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.process-connector {
+  position: absolute;
+  top: 44px; right: -1px;
+  width: 2px; height: 24px;
+  background: var(--orange-dim);
+}
+.process-step:last-child .process-connector { display: none; }
+
+/* ═══════════════════════════════════════════════
+   WHY UNETION
+═══════════════════════════════════════════════ */
+.why {
+  padding: 100px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+.why-left .section-eyebrow { color: var(--orange); }
+.why-left .section-p { margin-top: 16px; max-width: 420px; }
+.why-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.why-card {
+  background: var(--bg2);
+  padding: 32px 28px;
+  transition: background 0.2s;
+}
+.why-card:hover { background: var(--bg3); }
+.why-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--r-sm);
+  background: var(--orange-bg);
+  border: 1px solid var(--orange-dim);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.why-card-title {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+.why-card-desc {
+  font-size: 13px;
+  color: var(--txt3);
+  font-weight: 300;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* ═══════════════════════════════════════════════
+   COVERAGE BAND
+═══════════════════════════════════════════════ */
+.coverage {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.coverage-text {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.coverage-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); flex-shrink: 0; box-shadow: 0 0 10px var(--green); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.coverage-label {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--txt);
+}
+.coverage-label span { color: var(--txt3); font-weight: 300; margin-left: 6px; }
+.coverage-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+.cov-badge {
+  font-family: var(--font-d);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 7px 14px;
+  border-radius: var(--r-sm);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--txt2);
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════ */
+.contact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 640px;
+  border-bottom: 1px solid var(--border);
+}
+.contact-left {
+  padding: 80px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-left .section-eyebrow { color: var(--orange); }
+.contact-left .section-p { margin-top: 16px; max-width: 380px; }
+.contact-info {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.contact-info-icon {
+  width: 38px; height: 38px;
+  border-radius: var(--r-sm);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.contact-info-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  margin-bottom: 3px;
+}
+.contact-info-val {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--txt);
+}
+.contact-right {
+  padding: 80px 72px;
+  background: var(--bg2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-form-title {
+  font-family: var(--font-d);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 32px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-full { grid-column: 1 / -1; }
+.field-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  display: block;
+  margin-bottom: 8px;
+}
+.field-input, .field-select, .field-textarea {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-sm);
+  padding: 13px 16px;
+  color: var(--txt);
+  font-family: var(--font-b);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+.field-input::placeholder, .field-textarea::placeholder { color: var(--txt3); }
+.field-input:focus, .field-select:focus, .field-textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px oklch(67% 0.18 46 / 0.15);
+}
+.field-textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+.field-select {
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%235a5855' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+.form-submit {
+  margin-top: 20px;
+  width: 100%;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--orange);
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: var(--r-sm);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.form-submit:hover { background: var(--orange-bright); transform: translateY(-1px); }
+.form-note {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--txt3);
+  text-align: center;
+}
+.form-note a { color: var(--txt2); text-decoration: underline; }
+
+/* success state */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 40px 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.form-success.show { display: flex; }
+.form-success-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--green-bg);
+  border: 1px solid var(--green-dim);
+  display: flex; align-items: center; justify-content: center;
+}
+.form-success-title {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+.form-success-sub { font-size: 14px; color: var(--txt3); max-width: 300px; }
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer {
+  background: var(--bg);
+  padding: 64px 80px 40px;
+  border-top: 1px solid var(--border);
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+.footer-brand {}
+.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.footer-logo-wordmark {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.footer-logo-wordmark span { color: var(--orange); }
+.footer-tagline {
+  font-size: 13px;
+  color: var(--txt3);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 240px;
+}
+.footer-divs {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.footer-div-badge {
+  font-family: var(--font-d);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+}
+.fdb-green    { color: var(--green-bright); border-color: var(--green-dim); background: var(--green-bg); }
+.fdb-blue     { color: var(--blue-bright);  border-color: var(--blue-dim);  background: var(--blue-bg);  }
+.fdb-red      { color: var(--red-bright);   border-color: var(--red-dim);   background: var(--red-bg);   }
+.footer-col-title {
+  font-family: var(--font-d);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--txt2);
+  margin-bottom: 16px;
+}
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-col-links a {
+  font-size: 13px;
+  color: var(--txt3);
+  font-weight: 300;
+  transition: color 0.2s;
+}
+.footer-col-links a:hover { color: var(--txt); }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 32px;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-copy {
+  font-size: 12px;
+  color: var(--txt3);
+}
+.footer-legal {
+  display: flex;
+  gap: 20px;
+}
+.footer-legal a {
+  font-size: 12px;
+  color: var(--txt3);
+  transition: color 0.2s;
+}
+.footer-legal a:hover { color: var(--txt2); }
+
+/* WhatsApp FAB */
+.wa-fab {
+  position: fixed;
+  bottom: 32px; right: 32px;
+  z-index: 200;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.wa-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+
+/* ═══════════════════════════════════════════════
+   SCROLL ANIMATIONS
+═══════════════════════════════════════════════ */
+.fade-up {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-up.d1 { transition-delay: 0.1s; }
+.fade-up.d2 { transition-delay: 0.2s; }
+.fade-up.d3 { transition-delay: 0.3s; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero-divisions { display: none; }
+  .hero-content { padding: 120px 48px 80px; }
+  .stats-bar { padding: 32px 48px; }
+  .div-section { grid-template-columns: 1fr; }
+  .div-section.reverse { direction: ltr; }
+  .div-img-wrap { min-height: 340px; }
+  .div-content { padding: 56px 48px; }
+  .process { padding: 72px 48px; }
+  .process-grid { grid-template-columns: 1fr; gap: 2px; }
+  .why { grid-template-columns: 1fr; gap: 48px; padding: 72px 48px; }
+  .contact { grid-template-columns: 1fr; }
+  .contact-left { padding: 56px 48px; }
+  .contact-right { padding: 56px 48px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  footer { padding: 56px 48px 32px; }
+  .coverage { padding: 32px 48px; }
+  .divisions-header { padding: 72px 48px 48px; }
+}
+
+@media (max-width: 680px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .nav-cta-desktop { display: none; }
+  .nav-hamburger { display: flex; }
+  .hero-content { padding: 100px 24px 64px; }
+  .hero-scroll { display: none; }
+  .stats-bar { grid-template-columns: 1fr 1fr; padding: 24px; gap: 0; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 12px; }
+  .stat-item:nth-child(odd) { border-right: 1px solid var(--border); }
+  .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
+  .div-content { padding: 40px 24px; }
+  .process { padding: 56px 24px; }
+  .process-header { flex-direction: column; align-items: flex-start; }
+  .why { padding: 56px 24px; }
+  .why-right { grid-template-columns: 1fr; }
+  .contact-left { padding: 48px 24px; }
+  .contact-right { padding: 48px 24px; }
+  .form-grid { grid-template-columns: 1fr; }
+  footer { padding: 48px 24px 28px; }
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .coverage { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
+  .divisions-header { padding: 56px 24px 40px; }
+  .wa-fab { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body>
 
-    <!-- BOTÓN FLOTANTE WHATSAPP -->
-    <a href="https://wa.me/5491162803527" target="_blank" rel="noopener noreferrer"
-       class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#1ebe5d] text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center group"
-       aria-label="Contactar por WhatsApp">
-        <i data-lucide="message-circle" class="w-8 h-8"></i>
-        <span class="absolute right-full mr-4 bg-white text-slate-800 px-3 py-1.5 rounded-lg shadow-sm text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            ¡Escribinos!
-        </span>
+<!-- ─── WhatsApp FAB ─── -->
+<a class="wa-fab" href="https://wa.me/5491162803527" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ─── NAV ─── -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#">
+    <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,5 88,27.5 88,72.5 50,95 12,72.5 12,27.5"
+        fill="none" stroke="oklch(67% 0.18 46)" stroke-width="11" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" fill="oklch(67% 0.18 46)"
+        d="M 27,24 L 73,24 L 73,78 Q 73,84 67,84 L 33,84 Q 27,84 27,78 Z
+           M 41,24 L 59,40 L 59,72 Q 59,76 50,76 Q 41,76 41,72 Z"/>
+    </svg>
+    <div class="nav-wordmark">UNET<span>I</span>ON</div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#green">Solar &amp; EV</a></li>
+    <li><a href="#smart">Domótica</a></li>
+    <li><a href="#security">Seguridad</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+
+  <a class="nav-cta nav-cta-desktop" href="#contacto">Pedir presupuesto</a>
+  <div class="nav-hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#green"    onclick="closeMobile()">Solar &amp; EV</a>
+  <a href="#smart"    onclick="closeMobile()">Domótica</a>
+  <a href="#security" onclick="closeMobile()">Seguridad</a>
+  <a href="#proceso"  onclick="closeMobile()">Proceso</a>
+  <a href="#contacto" onclick="closeMobile()">Contacto</a>
+  <a href="#contacto" class="nav-cta" onclick="closeMobile()">Pedir presupuesto</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <!-- Slide 0: Paneles Solares -->
+  <img class="hero-slide active" id="hero-slide-0"
+    src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2400&q=85"
+    alt="Casa con paneles solares al atardecer" loading="eager">
+  <!-- Slide 1: Cargador EV -->
+  <img class="hero-slide" id="hero-slide-1"
+    src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=2400&q=85"
+    alt="Cargador para vehículo eléctrico" loading="eager">
+  <!-- Slide 2: Seguridad -->
+  <img class="hero-slide" id="hero-slide-2"
+    src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=2400&q=85"
+    alt="Sistema de cámaras y control de acceso" loading="eager">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow fade-up">Energía · Smart · Seguridad</div>
+    <h1 class="hero-h1 fade-up d1">Tu hogar,<br><em>inteligente</em><br>y seguro.</h1>
+
+    <!-- Service chips -->
+    <div class="hero-chips fade-up d2" id="hero-chips">
+      <div class="hero-chip chip-active" id="chip-solar" onclick="heroGoTo(0)">
+        <div class="hero-chip-icon" style="background: oklch(38% 0.12 152 / 0.7);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="4" stroke="oklch(72% 0.15 150)" stroke-width="2"/>
+            <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="oklch(72% 0.15 150)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="hero-chip-label">Paneles Solares</span><span class="hero-chip-sub">— ahorro energético</span>
+      </div>
+      <div class="hero-chip" id="chip-ev" onclick="heroGoTo(1)">
+        <div class="hero-chip-icon" style="background: oklch(40% 0.14 46 / 0.7);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="oklch(75% 0.17 50)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="hero-chip-label">Cargadores EV</span><span class="hero-chip-sub">— cargá tu auto en casa</span>
+      </div>
+      <div class="hero-chip" id="chip-security" onclick="heroGoTo(2)">
+        <div class="hero-chip-icon" style="background: oklch(40% 0.14 25 / 0.7);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="oklch(72% 0.16 28)" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="hero-chip-label">Seguridad 24/7</span><span class="hero-chip-sub">— cámaras y accesos</span>
+      </div>
+    </div>
+
+    <p class="hero-sub fade-up d3">Instalamos paneles solares, cargadores para autos eléctricos, domótica y seguridad. Una sola empresa, sin complicaciones.</p>
+    <div class="hero-actions fade-up d3">
+      <a class="btn-primary" href="#contacto">
+        Cotizar mi proyecto
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn-outline" href="#green">Ver servicios</a>
+    </div>
+  </div>
+
+  <!-- Division sidebar -->
+  <div class="hero-divisions">
+    <a class="hdiv hdiv-green" href="#green">
+      <span class="hdiv-dot" style="background: var(--green)"></span>
+      <span class="hdiv-name" style="color: var(--green-bright)">GREEN</span>
     </a>
+    <a class="hdiv hdiv-blue" href="#smart">
+      <span class="hdiv-dot" style="background: var(--blue)"></span>
+      <span class="hdiv-name" style="color: var(--blue-bright)">SMART</span>
+    </a>
+    <a class="hdiv hdiv-red" href="#security">
+      <span class="hdiv-dot" style="background: var(--red)"></span>
+      <span class="hdiv-name" style="color: var(--red-bright)">SECURITY</span>
+    </a>
+  </div>
 
-    <!-- ============================================== -->
-    <!-- VISTA PRINCIPAL (LANDING PAGE)                 -->
-    <!-- ============================================== -->
-    <div id="main-view">
-        
-        <!-- NAVEGACIÓN -->
-        <nav class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-40">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-20 items-center">
-                    <div class="flex items-center gap-2">
-                        <div class="bg-gradient-to-br from-emerald-900 to-emerald-600 p-2 rounded-lg text-white">
-                            <i data-lucide="zap" class="w-7 h-7"></i>
-                        </div>
-                        <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-900 to-emerald-700">
-                            Unetion
-                        </span>
-                    </div>
-                    <div class="hidden md:flex space-x-8">
-                        <a href="#servicios" class="text-slate-600 hover:text-emerald-800 font-medium transition-colors">Servicios</a>
-                        <a href="#como-funciona" class="text-slate-600 hover:text-emerald-800 font-medium transition-colors">Cómo Funciona</a>
-                        <a href="#contacto" class="text-slate-600 hover:text-emerald-800 font-medium transition-colors">Contacto</a>
-                    </div>
-                    <a href="#contacto" class="bg-emerald-800 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-full font-medium transition-colors shadow-lg shadow-emerald-900/20 hidden sm:block">
-                        Pedir Presupuesto
-                    </a>
-                </div>
-            </div>
-        </nav>
+  <!-- Carousel dots -->
+  <div class="hero-dots" id="hero-dots">
+    <div class="hero-dot active" onclick="heroGoTo(0)"></div>
+    <div class="hero-dot" onclick="heroGoTo(1)"></div>
+    <div class="hero-dot" onclick="heroGoTo(2)"></div>
+  </div>
 
-        <!-- HERO SECTION (EL GANCHO) -->
-        <section class="pt-32 pb-20 lg:pt-40 lg:pb-28 px-4 relative overflow-hidden bg-slate-950 text-white">
-            
-            <!-- Imagen de fondo de bosque oscuro -->
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="" class="w-full h-full object-cover opacity-40 mix-blend-luminosity">
-                <!-- Filtro superpuesto para mantener legibilidad y dar elegancia -->
-                <div class="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-emerald-950/80 to-slate-950/95"></div>
-            </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span class="hero-scroll-label">Scroll</span>
+  </div>
+</section>
 
-            <!-- Destellos de luz sutiles -->
-            <div class="absolute inset-0 z-0 opacity-40">
-                <div class="absolute top-0 -left-1/4 w-1/2 h-full bg-gradient-to-r from-emerald-800 to-transparent blur-3xl transform rotate-12"></div>
-                <div class="absolute bottom-0 -right-1/4 w-1/2 h-full bg-gradient-to-l from-emerald-900 to-transparent blur-3xl transform -rotate-12"></div>
-            </div>
-            
-            <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 mb-6 backdrop-blur-sm">
-                        <span class="flex h-2 w-2 rounded-full bg-emerald-400"></span>
-                        <span class="text-sm font-medium text-slate-200">Soluciones integrales de energía y seguridad</span>
-                    </div>
-                    <h1 class="text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-                        Hogares más inteligentes, <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-emerald-500">sustentables y seguros.</span>
-                    </h1>
-                    <p class="text-lg text-slate-300 mb-8 max-w-xl">
-                        En Unetion transformamos tu casa. Somos expertos en instalación de estaciones de carga para vehículos eléctricos, sistemas de energía solar y videovigilancia de alta tecnología.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#contacto" class="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-800 to-emerald-600 hover:from-emerald-700 hover:to-emerald-500 text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg shadow-emerald-900/50">
-                            Cotizar mi proyecto <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#servicios" class="flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 text-white px-8 py-4 rounded-full font-bold text-lg transition-all backdrop-blur-sm">
-                            Ver servicios
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Animación oculta en orientación vertical (portrait) -->
-                <div class="relative mt-12 lg:mt-0 w-full max-w-md mx-auto lg:max-w-none portrait:hidden">
-                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-3xl shadow-2xl relative z-10">
-                        <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
-                            <div>
-                                <h3 class="font-bold text-xl text-white">Panel de Control Hogar</h3>
-                                <p class="text-emerald-400 text-sm">Sistemas optimizados y en línea</p>
-                            </div>
-                            <div class="h-12 w-12 bg-slate-800 rounded-full flex items-center justify-center border border-slate-700">
-                                <i data-lucide="home" class="text-emerald-400 w-6 h-6"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-5">
-                            <!-- Indicador Solar -->
-                            <div>
-                                <div class="flex justify-between text-sm font-medium mb-2">
-                                    <span class="flex items-center gap-2 text-slate-300"><i data-lucide="sun" class="w-4 h-4 text-amber-400"></i> Energía Solar</span>
-                                    <span class="text-white font-bold">Generando (3.2 kW)</span>
-                                </div>
-                                <div class="relative w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                                    <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-amber-500 to-amber-300 w-[65%] rounded-full animate-pulse"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Indicador EV -->
-                            <div>
-                                <div class="flex justify-between text-sm font-medium mb-2">
-                                    <span class="flex items-center gap-2 text-slate-300"><i data-lucide="car-front" class="w-4 h-4 text-emerald-400"></i> Carga de Vehículo</span>
-                                    <span class="text-white font-bold">78% (1h 45m rest.)</span>
-                                </div>
-                                <div class="relative w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                                    <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-600 to-emerald-400 w-[78%] rounded-full animate-pulse"></div>
-                                </div>
-                            </div>
+<!-- ─── STATS ─── -->
+<div class="stats-bar">
+  <div class="stat-item fade-up">
+    <div class="stat-num">+200<span>+</span></div>
+    <div class="stat-label">Instalaciones realizadas</div>
+  </div>
+  <div class="stat-item fade-up d1">
+    <div class="stat-num">15<span>+</span></div>
+    <div class="stat-label">Años de experiencia en el rubro</div>
+  </div>
+  <div class="stat-item fade-up d2">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Divisiones especializadas</div>
+  </div>
+  <div class="stat-item fade-up d3">
+    <div class="stat-num">1</div>
+    <div class="stat-label">Solo proveedor que necesitás</div>
+  </div>
+</div>
 
-                            <!-- Indicador Seguridad -->
-                            <div class="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 flex items-center justify-between mt-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="h-10 w-10 bg-emerald-900/50 rounded-full flex items-center justify-center">
-                                        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-white font-bold text-sm">Cámaras y Alarma</p>
-                                        <p class="text-slate-400 text-xs">Sistema Armado y Vigilando</p>
-                                    </div>
-                                </div>
-                                <div class="h-3 w-3 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-emerald-700/20 blur-3xl rounded-full -z-10"></div>
-                </div>
-            </div>
-        </section>
+<!-- ─── DIVISIONS ─── -->
+<div class="divisions-header">
+  <div class="section-eyebrow fade-up" style="color: var(--orange); justify-content: center;">Nuestras divisiones</div>
+  <h2 class="section-h2 fade-up d1">Tres especialidades.<br>Una empresa de confianza.</h2>
+  <p class="section-p fade-up d2">Cada división opera con técnicos especializados y equipamiento de primeras marcas. Todo coordinado desde el primer contacto hasta la puesta en marcha.</p>
+</div>
 
-        <!-- PRESENTACIÓN / QUÉ OFRECEMOS (3 SUB-MARCAS) -->
-        <section id="servicios" class="py-24 bg-white relative">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center max-w-3xl mx-auto mb-16">
-                    <h2 class="text-3xl lg:text-4xl font-bold mb-4 text-slate-900">
-                        Nuestras Divisiones Especializadas
-                    </h2>
-                    <p class="text-lg text-slate-600">
-                        Hemos estructurado nuestros servicios en tres divisiones principales para brindarte el máximo nivel de especialización en cada área tecnológica de tu hogar.
-                    </p>
-                </div>
-
-                <!-- Contenedor del Acordeón -->
-                <div class="flex flex-col lg:flex-row gap-4 h-[850px] sm:h-[700px] lg:h-[450px] w-full" id="services-accordion">
-                    
-                    <!-- Tarjeta: GREEN -->
-                    <div class="service-card service-expanded relative overflow-hidden rounded-3xl cursor-pointer group bg-slate-900" onclick="activateService(0)">
-                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="[Image of Paneles Solares]" class="absolute inset-0 w-full h-full object-cover opacity-30 transition-opacity duration-700 group-hover:opacity-50">
-                        <div class="absolute inset-0 bg-gradient-to-t from-emerald-950 via-slate-950/80 to-slate-950/20"></div>
-                        
-                        <div class="absolute bottom-0 left-0 p-6 lg:p-8 w-full">
-                            <div class="min-w-[280px] sm:min-w-[320px]">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <div class="h-10 w-10 bg-emerald-500/20 rounded-lg flex items-center justify-center backdrop-blur-sm border border-emerald-500/30">
-                                        <i data-lucide="plug-zap" class="text-emerald-400 w-5 h-5 service-icon transition-transform duration-500 scale-110"></i>
-                                    </div>
-                                    <div class="flex items-baseline gap-1.5">
-                                        <span class="text-2xl lg:text-3xl font-bold text-white tracking-tight">Unetion</span>
-                                        <span class="text-lg lg:text-xl font-black italic text-emerald-400 tracking-wider transform -skew-x-12">GREEN</span>
-                                    </div>
-                                </div>
-                                <div class="service-content opacity-100 max-h-96 mt-4 overflow-hidden transition-all duration-500 delay-100">
-                                    <p class="text-slate-300 mb-4 text-sm lg:text-base pr-4 lg:pr-8">Paneles solares y cargadores para autos eléctricos. Soluciones de energía limpia para el hogar.</p>
-                                    <ul class="space-y-2.5">
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-emerald-400 w-4 h-4"></i><span class="text-sm text-slate-200">Paneles solares (On-Grid y Off-Grid)</span></li>
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-emerald-400 w-4 h-4"></i><span class="text-sm text-slate-200">Cargadores VE (Wallbox, Tipo 1/2)</span></li>
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-emerald-400 w-4 h-4"></i><span class="text-sm text-slate-200">Bancos de baterías residenciales</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tarjeta: SMART -->
-                    <div class="service-card service-collapsed relative overflow-hidden rounded-3xl cursor-pointer group bg-slate-900" onclick="activateService(1)">
-                        <img src="https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'" alt="" class="absolute inset-0 w-full h-full object-cover opacity-30 transition-opacity duration-700 group-hover:opacity-50">
-                        <div class="absolute inset-0 bg-gradient-to-t from-indigo-950 via-slate-950/80 to-slate-950/20"></div>
-                        
-                        <div class="absolute bottom-0 left-0 p-6 lg:p-8 w-full">
-                            <div class="min-w-[280px] sm:min-w-[320px]">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <div class="h-10 w-10 bg-indigo-500/20 rounded-lg flex items-center justify-center backdrop-blur-sm border border-indigo-500/30">
-                                        <i data-lucide="cpu" class="text-indigo-400 w-5 h-5 service-icon transition-transform duration-500"></i>
-                                    </div>
-                                    <div class="flex items-baseline gap-1.5">
-                                        <span class="text-2xl lg:text-3xl font-bold text-white tracking-tight">Unetion</span>
-                                        <span class="text-lg lg:text-xl font-black italic text-indigo-400 tracking-wider transform -skew-x-12">SMART</span>
-                                    </div>
-                                </div>
-                                <div class="service-content opacity-0 max-h-0 mt-0 pointer-events-none overflow-hidden transition-all duration-500 delay-100">
-                                    <p class="text-slate-300 mb-4 text-sm lg:text-base pr-4 lg:pr-8">Redes, domótica, integración de sistemas y automatización para un hogar totalmente conectado.</p>
-                                    <ul class="space-y-2.5">
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-indigo-400 w-4 h-4"></i><span class="text-sm text-slate-200">Redes estructuradas y conectividad</span></li>
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-indigo-400 w-4 h-4"></i><span class="text-sm text-slate-200">Domótica y automatización del hogar</span></li>
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-indigo-400 w-4 h-4"></i><span class="text-sm text-slate-200">Integración de sistemas inteligentes</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tarjeta: SECURITY -->
-                    <div class="service-card service-collapsed relative overflow-hidden rounded-3xl cursor-pointer group bg-slate-900" onclick="activateService(2)">
-                        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" onerror="this.src='https://images.unsplash.com/photo-1541888081691-10c0e5b7ccfc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'" alt="[Image of Cámara de Seguridad]" class="absolute inset-0 w-full h-full object-cover opacity-30 transition-opacity duration-700 group-hover:opacity-50">
-                        <div class="absolute inset-0 bg-gradient-to-t from-red-950 via-slate-950/80 to-slate-950/20"></div>
-                        
-                        <div class="absolute bottom-0 left-0 p-6 lg:p-8 w-full">
-                            <div class="min-w-[280px] sm:min-w-[320px]">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <div class="h-10 w-10 bg-red-500/20 rounded-lg flex items-center justify-center backdrop-blur-sm border border-red-500/30">
-                                        <i data-lucide="cctv" class="text-red-500 w-5 h-5 service-icon transition-transform duration-500"></i>
-                                    </div>
-                                    <div class="flex items-baseline gap-1.5">
-                                        <span class="text-2xl lg:text-3xl font-bold text-white tracking-tight">Unetion</span>
-                                        <span class="text-lg lg:text-xl font-black italic text-red-500 tracking-wider transform -skew-x-12">SECURITY</span>
-                                    </div>
-                                </div>
-                                <div class="service-content opacity-0 max-h-0 mt-0 pointer-events-none overflow-hidden transition-all duration-500 delay-100">
-                                    <p class="text-slate-300 mb-4 text-sm lg:text-base pr-4 lg:pr-8">Cámaras y control de acceso. Tranquilidad y protección 24/7 en tu propiedad.</p>
-                                    <ul class="space-y-2.5">
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-red-500 w-4 h-4"></i><span class="text-sm text-slate-200">Cámaras CCTV y monitoreo IP</span></li>
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-red-500 w-4 h-4"></i><span class="text-sm text-slate-200">Sistemas de control de acceso</span></li>
-                                        <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="text-red-500 w-4 h-4"></i><span class="text-sm text-slate-200">Alarmas con control desde el celular</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- CÓMO CONTRATAR -->
-        <section id="como-funciona" class="py-24 bg-slate-50">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex flex-col lg:flex-row gap-16 items-center">
-                    <div class="lg:w-1/2">
-                        <h2 class="text-3xl lg:text-4xl font-bold mb-6 text-slate-900">
-                            Un proceso de contratación simple y sin sorpresas
-                        </h2>
-                        <p class="text-lg text-slate-600 mb-8">
-                            Ya sea que necesites paneles solares, cámaras o un cargador, nuestro método de trabajo garantiza un proyecto impecable de principio a fin.
-                        </p>
-
-                        <div class="space-y-8">
-                            <div class="flex gap-4">
-                                <div class="flex-shrink-0 mt-1">
-                                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-700 text-white font-bold">1</div>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">Contacto y Cotización Inicial</h4>
-                                    <p class="text-slate-600">Escríbenos contándonos qué servicio necesitas y en qué zona vives. Te enviamos una propuesta y presupuesto base estimado rápidamente.</p>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-4">
-                                <div class="flex-shrink-0 mt-1">
-                                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-700 text-white font-bold">2</div>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">Visita Técnica y Diseño</h4>
-                                    <p class="text-slate-600">Un técnico evalúa tu propiedad (tableros, techo, perímetros según el proyecto) para definir la ruta de instalación y el presupuesto final exacto.</p>
-                                </div>
-                            </div>
-
-                            <div class="flex gap-4">
-                                <div class="flex-shrink-0 mt-1">
-                                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-700 text-white font-bold">3</div>
-                                </div>
-                                <div>
-                                    <h4 class="text-xl font-bold mb-2">Instalación y Configuración</h4>
-                                    <p class="text-slate-600">Realizamos la obra de forma prolija. Dejamos todo configurado en tus dispositivos y te enseñamos a utilizar tu nuevo sistema.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cuadro de "Beneficios / Por qué elegirnos" -->
-                    <div class="lg:w-1/2 w-full bg-slate-900 rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden shadow-2xl">
-                        <div class="absolute top-0 right-0 p-12 opacity-5">
-                            <i data-lucide="shield-check" class="w-48 h-48"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-6 relative z-10">¿Por qué elegir los servicios de Unetion?</h3>
-                        <ul class="space-y-4 relative z-10">
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Mano de obra especializada y técnicos matriculados.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Soluciones integradas: Todo lo resuelves con un solo proveedor.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Estricto cumplimiento de normativas eléctricas y de seguridad.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Materiales, cableado y equipamiento de primeras marcas.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="check-circle-2" class="text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                                <span>Garantía escrita por 12 meses sobre todas nuestras instalaciones.</span>
-                            </li>
-                        </ul>
-                        <div class="mt-8 pt-8 border-t border-slate-700 relative z-10">
-                            <p class="text-slate-400 text-sm mb-2">Consulta por</p>
-                            <div class="flex items-end gap-2">
-                                <span class="text-2xl font-bold text-emerald-400">Soluciones a Medida</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACTO -->
-        <section id="contacto" class="py-24 bg-white relative">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="bg-emerald-950 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-emerald-950/40">
-                    <div class="grid lg:grid-cols-2">
-                        <div class="p-10 lg:p-16 text-white flex flex-col justify-between relative overflow-hidden">
-                            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-emerald-900 to-slate-900 -z-10"></div>
-                            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-emerald-500 rounded-full blur-3xl opacity-10 -z-10"></div>
-                            
-                            <div class="relative z-10">
-                                <h2 class="text-3xl lg:text-4xl font-bold mb-4">¿Listo para transformar tu hogar?</h2>
-                                <p class="text-emerald-100 text-lg mb-12">
-                                    Déjanos tus datos o contáctanos directamente. Nuestro equipo técnico responderá todas tus dudas sin compromiso, sea para cargadores, paneles o cámaras.
-                                </p>
-
-                                <div class="space-y-6">
-                                    <div class="flex items-center gap-4 bg-emerald-800/40 p-4 rounded-2xl border border-emerald-700/30 backdrop-blur-sm">
-                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="phone" class="text-white"></i>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm text-emerald-200">WhatsApp / Teléfono</p>
-                                            <p class="font-bold text-lg">+54 11 6280-3527</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center gap-4 bg-emerald-800/40 p-4 rounded-2xl border border-emerald-700/30 backdrop-blur-sm">
-                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="mail" class="text-white"></i>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm text-emerald-200">Email</p>
-                                            <p class="font-bold text-lg">contacto@unetion.com</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center gap-4 bg-emerald-800/40 p-4 rounded-2xl border border-emerald-700/30 backdrop-blur-sm">
-                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <i data-lucide="map-pin" class="text-white"></i>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm text-emerald-200">Área de Cobertura</p>
-                                            <p class="font-bold text-lg">CABA y Gran Buenos Aires</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-10 lg:p-16">
-                            <h3 class="text-2xl font-bold text-slate-900 mb-6">Solicitar Presupuesto</h3>
-                            
-                            <!-- Mensaje de Éxito (Oculto por defecto) -->
-                            <div id="success-message" class="hidden h-full min-h-[300px] flex flex-col items-center justify-center text-center duration-300">
-                                <div class="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mb-6">
-                                    <i data-lucide="check-circle-2" class="w-10 h-10"></i>
-                                </div>
-                                <h4 class="text-2xl font-bold text-slate-900 mb-2">¡Mensaje Preparado!</h4>
-                                <p class="text-slate-600">Se abrirá WhatsApp para enviarnos tu consulta directamente.</p>
-                            </div>
-
-                            <!-- Formulario -->
-                            <form id="contact-form" class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-1">Nombre Completo</label>
-                                    <input type="text" name="nombre" required
-                                           class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none transition-all"
-                                           placeholder="Ej. Juan Pérez">
-                                </div>
-                                <!-- Apilar campos en celular, poner lado a lado en PC -->
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 mb-1">Teléfono</label>
-                                        <input type="tel" name="telefono" required
-                                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none transition-all"
-                                               placeholder="Tu número celular">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 mb-1">Barrio / Ciudad</label>
-                                        <input type="text" name="ubicacion" required
-                                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none transition-all"
-                                               placeholder="Ej. Belgrano">
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-slate-700 mb-1">Servicio y Consulta</label>
-                                    <textarea rows="4" name="consulta" required
-                                              class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 outline-none transition-all resize-none"
-                                              placeholder="Cuéntanos qué necesitas (Cargador VE, Paneles Solares, Cámaras de Seguridad)..."></textarea>
-                                </div>
-                                <button type="submit"
-                                        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-colors mt-2">
-                                    Enviar Consulta
-                                </button>
-                                <p class="text-xs text-slate-500 text-center mt-4">
-                                    Al enviar este formulario aceptas nuestra 
-                                    <button type="button" onclick="togglePrivacyModal(true)" class="text-emerald-700 underline hover:text-emerald-900">
-                                        política de privacidad
-                                    </button>.
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
-            <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="zap" class="text-emerald-400 w-6 h-6"></i>
-                    <span class="text-xl font-bold text-white">Unetion</span>
-                </div>
-                
-                <div class="text-center md:text-left">
-                    <p>&copy; <span id="current-year"></span> Unetion. Todos los derechos reservados.</p>
-                    <p class="text-sm mt-1">Soluciones integrales: Energía, Movilidad Sostenible y Seguridad.</p>
-                </div>
-
-                <div class="flex space-x-6">
-                    <a href="#privacidad" class="hover:text-white transition-colors text-sm">Política de Privacidad</a>
-                    <a href="#contacto" class="hover:text-white transition-colors text-sm">Contacto</a>
-                </div>
-            </div>
-        </footer>
+<!-- GREEN -->
+<section class="div-section div-green" id="green">
+  <div class="div-img-wrap">
+    <img class="div-img" src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=1400&q=80" alt="Cargador EV instalado en hogar" loading="lazy">
+    <div class="div-img-overlay"></div>
+    <div class="div-tag">
+      <span class="div-tag-dot"></span>
+      UNETION GREEN
     </div>
+  </div>
+  <div class="div-content">
+    <div class="div-content-inner fade-up">
+      <div class="div-name-display">GREEN</div>
+      <div class="section-eyebrow">Solar &amp; Movilidad eléctrica</div>
+      <h2 class="section-h2">Energía limpia para tu hogar.</h2>
+      <p class="section-p">Reducí hasta un 90% tu factura de luz con paneles solares y cargá tu vehículo eléctrico con energía propia. Diseñamos y ejecutamos el sistema completo.</p>
+      <ul class="div-ul">
+        <li><span class="div-ul-dot"></span>Paneles solares On-Grid y Off-Grid</li>
+        <li><span class="div-ul-dot"></span>Cargadores EV (Wallbox, Tipo 1 y Tipo 2)</li>
+        <li><span class="div-ul-dot"></span>Bancos de baterías residenciales</li>
+        <li><span class="div-ul-dot"></span>Monitoreo de generación en tiempo real</li>
+      </ul>
+      <a class="div-cta" href="#contacto">
+        Consultar Solar &amp; EV
+        <svg class="div-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
 
-    <!-- ============================================== -->
-    <!-- VISTA PÁGINA DE PRIVACIDAD                     -->
-    <!-- ============================================== -->
-    <div id="privacy-view" class="hidden min-h-screen bg-slate-50 font-sans text-slate-800 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
-            <div class="flex justify-between items-center mb-8 border-b pb-4">
-                <h1 class="text-3xl font-bold text-slate-900">Política de Privacidad – Unetion</h1>
-                <a href="#" class="text-emerald-700 hover:text-emerald-900 font-medium flex items-center gap-2 transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i> Volver al inicio
-                </a>
-            </div>
-            <div class="space-y-6 text-slate-600">
-                <p><strong>Última actualización:</strong> 8/4/2026</p>
-                <p>En Unetion, valoramos tu privacidad y nos comprometemos a proteger los datos personales que nos compartís.</p>
-                
-                <h2 class="text-xl font-bold text-slate-900">1. Información que recopilamos</h2>
-                <p>Recopilamos únicamente la información que nos proporcionás de forma voluntaria al contactarnos, que puede incluir:</p>
-                <ul class="list-disc pl-5">
-                    <li>Nombre</li>
-                    <li>Número de teléfono</li>
-                    <li>Dirección de correo electrónico</li>
-                </ul>
+<!-- SMART -->
+<section class="div-section div-smart reverse" id="smart">
+  <div class="div-img-wrap">
+    <img class="div-img" src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1400&q=80" alt="Panel de domótica e hogar inteligente" loading="lazy">
+    <div class="div-img-overlay"></div>
+    <div class="div-tag">
+      <span class="div-tag-dot"></span>
+      UNETION SMART
+    </div>
+  </div>
+  <div class="div-content">
+    <div class="div-content-inner fade-up">
+      <div class="div-name-display">SMART</div>
+      <div class="section-eyebrow">Domótica &amp; Conectividad</div>
+      <h2 class="section-h2">Tu casa conectada, a tu medida.</h2>
+      <p class="section-p">Automatizá luces, persianas, climatización y seguridad desde el celular. Instalamos redes estructuradas y sistemas de integración para un control total del hogar.</p>
+      <ul class="div-ul">
+        <li><span class="div-ul-dot"></span>Redes estructuradas y WiFi profesional</li>
+        <li><span class="div-ul-dot"></span>Domótica y automatización del hogar</li>
+        <li><span class="div-ul-dot"></span>Integración de sistemas inteligentes</li>
+        <li><span class="div-ul-dot"></span>Control desde app en cualquier lugar</li>
+      </ul>
+      <a class="div-cta" href="#contacto">
+        Consultar Domótica
+        <svg class="div-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
 
-                <h2 class="text-xl font-bold text-slate-900">2. Uso de la información</h2>
-                <p>La información recopilada es utilizada exclusivamente para:</p>
-                <ul class="list-disc pl-5">
-                    <li>Responder consultas</li>
-                    <li>Brindar información sobre nuestros servicios</li>
-                    <li>Contactarte en relación a una posible contratación</li>
-                </ul>
+<!-- SECURITY -->
+<section class="div-section div-security" id="security">
+  <div class="div-img-wrap">
+    <img class="div-img" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1400&q=80" alt="Cámara de seguridad de alta definición" loading="lazy">
+    <div class="div-img-overlay"></div>
+    <div class="div-tag">
+      <span class="div-tag-dot"></span>
+      UNETION SECURITY
+    </div>
+  </div>
+  <div class="div-content">
+    <div class="div-content-inner fade-up">
+      <div class="div-name-display">SECURITY</div>
+      <div class="section-eyebrow">Vigilancia &amp; Control de acceso</div>
+      <h2 class="section-h2">Tranquilidad total, 24/7.</h2>
+      <p class="section-p">Cámaras IP de alta definición, alarmas y control de acceso biométrico integrado. Monitorear tu propiedad desde el celular, en tiempo real, desde cualquier lugar.</p>
+      <ul class="div-ul">
+        <li><span class="div-ul-dot"></span>Cámaras CCTV e IP de alta definición</li>
+        <li><span class="div-ul-dot"></span>Control de acceso biométrico y vehicular</li>
+        <li><span class="div-ul-dot"></span>Alarmas con notificación al celular</li>
+        <li><span class="div-ul-dot"></span>Monitoreo remoto 24/7</li>
+      </ul>
+      <a class="div-cta" href="#contacto">
+        Consultar Seguridad
+        <svg class="div-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
 
-                <h2 class="text-xl font-bold text-slate-900">3. Almacenamiento y protección de datos</h2>
-                <p>Tus datos son almacenados de forma segura y no son compartidos, vendidos ni cedidos a terceros.</p>
+<!-- ─── PROCESS ─── -->
+<section class="process" id="proceso">
+  <div class="process-header">
+    <div>
+      <div class="section-eyebrow fade-up">Cómo trabajamos</div>
+      <h2 class="section-h2 fade-up d1">Un proceso simple<br>y sin sorpresas.</h2>
+    </div>
+    <p class="section-p fade-up d2" style="max-width: 340px;">Desde la primera consulta hasta la puesta en marcha, acompañamos cada etapa con profesionalismo y transparencia.</p>
+  </div>
+  <div class="process-grid">
+    <div class="process-step fade-up">
+      <div class="process-num">01</div>
+      <div class="process-step-title">Contacto y cotización</div>
+      <div class="process-step-desc">Contanos qué necesitás y en qué zona. Te enviamos una propuesta y presupuesto base estimado en menos de 24 horas.</div>
+      <div class="process-connector"></div>
+    </div>
+    <div class="process-step fade-up d1">
+      <div class="process-num">02</div>
+      <div class="process-step-title">Visita técnica y diseño</div>
+      <div class="process-step-desc">Un técnico matriculado evalúa tu propiedad para definir la instalación ideal y el presupuesto final exacto, sin cargos ocultos.</div>
+      <div class="process-connector"></div>
+    </div>
+    <div class="process-step fade-up d2">
+      <div class="process-num">03</div>
+      <div class="process-step-title">Instalación y puesta en marcha</div>
+      <div class="process-step-desc">Ejecutamos la obra de forma prolija. Dejamos todo configurado y te enseñamos a usar tu nuevo sistema. Incluye soporte técnico post-instalación ante cualquier duda.</div>
+    </div>
+  </div>
+</section>
 
-                <h2 class="text-xl font-bold text-slate-900">4. Conservación de la información</h2>
-                <p>Los datos serán conservados únicamente durante el tiempo necesario para cumplir con los fines mencionados anteriormente.</p>
+<!-- ─── WHY UNETION ─── -->
+<section class="why">
+  <div class="why-left fade-up">
+    <div class="section-eyebrow">Por qué elegirnos</div>
+    <h2 class="section-h2">La diferencia<br>Unetion.</h2>
+    <p class="section-p">Somos el único proveedor que integra energía solar, domótica y seguridad. Un solo punto de contacto, trayectoria comprobada y técnicos especializados en cada proyecto.</p>
+  </div>
+  <div class="why-right">
+    <div class="why-card fade-up">
+      <div class="why-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="why-card-title">Técnicos especializados</div>
+      <div class="why-card-desc">Todo trabajo realizado por profesionales con formación específica en cada área, cumpliendo normativas vigentes.</div>
+    </div>
+    <div class="why-card fade-up d1">
+      <div class="why-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="var(--orange)" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="why-card-title">Soporte post-instalación</div>
+      <div class="why-card-desc">Acompañamos cada proyecto con soporte técnico continuo. Ante cualquier inconveniente, respondemos rápido y sin vueltas.</div>
+    </div>
+    <div class="why-card fade-up d2">
+      <div class="why-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="why-card-title">Soluciones integradas</div>
+      <div class="why-card-desc">Solar, domótica y seguridad en una sola empresa. Todo conectado, todo coordinado desde el día uno.</div>
+    </div>
+    <div class="why-card fade-up d3">
+      <div class="why-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zM3 9h18M9 21V9" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="why-card-title">Primeras marcas</div>
+      <div class="why-card-desc">Solo trabajamos con equipamiento y cableado de fabricantes reconocidos. Sin atajos, sin compromisos en calidad.</div>
+    </div>
+  </div>
+</section>
 
-                <h2 class="text-xl font-bold text-slate-900">5. Derechos del usuario</h2>
-                <p>Podés solicitar en cualquier momento:</p>
-                <ul class="list-disc pl-5">
-                    <li>Acceso a tus datos personales</li>
-                    <li>Modificación o actualización</li>
-                    <li>Eliminación de tus datos</li>
-                </ul>
-                <p>Para ejercer estos derechos, podés contactarnos a: <strong>contacto@unetion.com</strong></p>
+<!-- ─── COVERAGE BAND ─── -->
+<div class="coverage">
+  <div class="coverage-text">
+    <span class="coverage-dot"></span>
+    <span class="coverage-label">Zona de cobertura activa <span>— CABA y Gran Buenos Aires</span></span>
+  </div>
+  <div class="coverage-badges">
+    <span class="cov-badge">CABA</span>
+    <span class="cov-badge">Norte GBA</span>
+    <span class="cov-badge">Sur GBA</span>
+    <span class="cov-badge">Oeste GBA</span>
+    <span class="cov-badge">Countries &amp; barrios</span>
+  </div>
+</div>
 
-                <h2 class="text-xl font-bold text-slate-900">6. Cookies</h2>
-                <p>Nuestro sitio web puede utilizar cookies básicas para mejorar la experiencia del usuario. Estas no recopilan información personal identificable.</p>
-
-                <h2 class="text-xl font-bold text-slate-900">7. Cambios en esta política</h2>
-                <p>Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Los cambios serán publicados en esta misma página.</p>
-
-                <h2 class="text-xl font-bold text-slate-900">8. Contacto</h2>
-                <p>Si tenés preguntas sobre esta Política de Privacidad, podés contactarnos a:<br/>Email: <strong>contacto@unetion.com</strong></p>
-            </div>
+<!-- ─── CONTACT ─── -->
+<section class="contact" id="contacto">
+  <div class="contact-left">
+    <div class="section-eyebrow fade-up" style="color: var(--orange);">Contacto</div>
+    <h2 class="section-h2 fade-up d1">¿Listo para transformar tu hogar?</h2>
+    <p class="section-p fade-up d2">Nuestro equipo responde todas las consultas sin compromiso. Contanos tu proyecto y te asesoramos.</p>
+    <div class="contact-info fade-up d3">
+      <div class="contact-info-item">
+        <div class="contact-info-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="var(--txt2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-    </div>
-
-    <!-- ============================================== -->
-    <!-- MODAL POLÍTICA DE PRIVACIDAD                   -->
-    <!-- ============================================== -->
-    <div id="privacy-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="text-xl font-bold text-slate-900">Política de Privacidad</h3>
-                <button onclick="togglePrivacyModal(false)" class="text-slate-400 hover:text-slate-600 bg-white rounded-full p-1 hover:bg-slate-200 transition-colors">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-            </div>
-            
-            <div class="p-6 overflow-y-auto text-slate-600 space-y-4">
-                <p><strong>Última actualización:</strong> 8/4/2026</p>
-                <p>En Unetion, valoramos tu privacidad y nos comprometemos a proteger los datos personales que nos compartís.</p>
-                
-                <h4 class="font-bold text-slate-900 text-lg mt-4">1. Información que recopilamos</h4>
-                <p>Recopilamos únicamente la información que nos proporcionás de forma voluntaria al contactarnos, que puede incluir: Nombre, Número de teléfono, Dirección de correo electrónico.</p>
-                
-                <h4 class="font-bold text-slate-900 text-lg mt-4">2. Uso de la información</h4>
-                <p>La información recopilada es utilizada exclusivamente para responder consultas, brindar información y contactarte.</p>
-
-                <h4 class="font-bold text-slate-900 text-lg mt-4">3. Almacenamiento y protección</h4>
-                <p>Tus datos son almacenados de forma segura y no son compartidos, vendidos ni cedidos a terceros.</p>
-
-                <h4 class="font-bold text-slate-900 text-lg mt-4">Más información</h4>
-                <p>Para ver la política completa, visita nuestra página de <a href="#privacidad" onclick="togglePrivacyModal(false)" class="text-emerald-700 underline">Política de Privacidad</a> o contáctanos a: <strong>contacto@unetion.com</strong></p>
-            </div>
-
-            <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
-                <button onclick="togglePrivacyModal(false)" class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-lg font-medium transition-colors">
-                    Entendido, cerrar
-                </button>
-            </div>
+        <div>
+          <div class="contact-info-label">WhatsApp / Teléfono</div>
+          <a class="contact-info-val" href="https://wa.me/5491162803527">+54 11 6280-3527</a>
         </div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-info-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="var(--txt2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polyline points="22,6 12,13 2,6" stroke="var(--txt2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="contact-info-label">Email</div>
+          <a class="contact-info-val" href="/cdn-cgi/l/email-protection#04676b6a706567706b44716a61706d6b6a2a676b69"><span class="__cf_email__" data-cfemail="680b07061c090b1c07281d060d1c010706460b0705">[email&#160;protected]</span></a>
+        </div>
+      </div>
+      <div class="contact-info-item">
+        <div class="contact-info-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" stroke="var(--txt2)" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="contact-info-label">Área de cobertura</div>
+          <div class="contact-info-val">CABA y Gran Buenos Aires</div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- ============================================== -->
-    <!-- SCRIPTS MÁGICOS                                -->
-    <!-- ============================================== -->
-    <script>
-        // 1. Inicializar los íconos
-        lucide.createIcons();
+  <div class="contact-right fade-up d1">
+    <div class="contact-form-title">Solicitar presupuesto</div>
+    <form id="contact-form" novalidate>
+      <div class="form-grid">
+        <div>
+          <label class="field-label" for="nombre">Nombre completo</label>
+          <input class="field-input" id="nombre" type="text" placeholder="Juan García" required>
+        </div>
+        <div>
+          <label class="field-label" for="telefono">Teléfono</label>
+          <input class="field-input" id="telefono" type="tel" placeholder="+54 11 ..." required>
+        </div>
+        <div>
+          <label class="field-label" for="email">Email</label>
+          <input class="field-input" id="email" type="email" placeholder="juan@email.com">
+        </div>
+        <div>
+          <label class="field-label" for="zona">Barrio / Ciudad</label>
+          <input class="field-input" id="zona" type="text" placeholder="Ej: Palermo, Tigre...">
+        </div>
+        <div class="form-full">
+          <label class="field-label" for="servicio">Servicio de interés</label>
+          <select class="field-select" id="servicio">
+            <option value="">Seleccioná un servicio...</option>
+            <option>Unetion GREEN — Paneles solares</option>
+            <option>Unetion GREEN — Cargador EV</option>
+            <option>Unetion SMART — Domótica y automatización</option>
+            <option>Unetion SECURITY — Cámaras y vigilancia</option>
+            <option>Unetion SECURITY — Control de acceso</option>
+            <option>Proyecto integral (múltiples divisiones)</option>
+          </select>
+        </div>
+        <div class="form-full">
+          <label class="field-label" for="consulta">Contanos tu proyecto</label>
+          <textarea class="field-textarea" id="consulta" placeholder="Breve descripción de lo que necesitás..."></textarea>
+        </div>
+      </div>
+      <button class="form-submit" type="submit">
+        Enviar consulta
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <p class="form-note">Al enviar aceptás nuestra <a href="#">política de privacidad</a>. Sin spam, nunca.</p>
+    </form>
+    <div class="form-success" id="form-success">
+      <div class="form-success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="var(--green)" stroke-width="1.6"/></svg>
+      </div>
+      <div class="form-success-title">¡Mensaje enviado!</div>
+      <div class="form-success-sub">Te respondemos en menos de 24 horas. También podés escribirnos por WhatsApp.</div>
+      <a class="btn-outline" href="https://wa.me/5491162803527" target="_blank" style="margin-top: 8px; font-size: 13px; padding: 12px 24px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Escribir por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
 
-        // 2. Colocar el año actual en el footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="50,5 88,27.5 88,72.5 50,95 12,72.5 12,27.5"
+            fill="none" stroke="oklch(67% 0.18 46)" stroke-width="11" stroke-linejoin="round"/>
+          <path fill-rule="evenodd" fill="oklch(67% 0.18 46)"
+            d="M 27,24 L 73,24 L 73,78 Q 73,84 67,84 L 33,84 Q 27,84 27,78 Z
+               M 41,24 L 59,40 L 59,72 Q 59,76 50,76 Q 41,76 41,72 Z"/>
+        </svg>
+        <div class="footer-logo-wordmark">UNET<span>I</span>ON</div>
+      </div>
+      <p class="footer-tagline">Soluciones integrales de energía solar, domótica y seguridad para hogares en CABA y Gran Buenos Aires.</p>
+      <div class="footer-divs">
+        <span class="footer-div-badge fdb-green">GREEN</span>
+        <span class="footer-div-badge fdb-blue">SMART</span>
+        <span class="footer-div-badge fdb-red">SECURITY</span>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Divisiones</div>
+      <ul class="footer-col-links">
+        <li><a href="#green">Unetion GREEN</a></li>
+        <li><a href="#smart">Unetion SMART</a></li>
+        <li><a href="#security">Unetion SECURITY</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Empresa</div>
+      <ul class="footer-col-links">
+        <li><a href="#proceso">Cómo trabajamos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#contacto">Pedir presupuesto</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contacto</div>
+      <ul class="footer-col-links">
+        <li><a href="https://wa.me/5491162803527">+54 11 6280-3527</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#5c3f3332283d3f28331c29323928353332723f3331"><span class="__cf_email__" data-cfemail="24474b4a504547504b64514a41504d4b4a0a474b49">[email&#160;protected]</span></a></li>
+        <li><a href="#">CABA y Gran Buenos Aires</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Unetion. Todos los derechos reservados.</span>
+    <div class="footer-legal">
+      <a href="#">Política de privacidad</a>
+      <a href="#">Términos de uso</a>
+    </div>
+  </div>
+</footer>
 
-        // 3. Funcionalidad del Formulario a WhatsApp
-        const contactForm = document.getElementById('contact-form');
-        const successMessage = document.getElementById('success-message');
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Nav scroll
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
 
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Recolectar datos
-            const formData = new FormData(contactForm);
-            const nombre = formData.get('nombre');
-            const telefono = formData.get('telefono');
-            const ubicacion = formData.get('ubicacion');
-            const consulta = formData.get('consulta');
+// ── Hero carousel
+const HERO_SLIDES = 3;
+let heroCurrent = 0;
+let heroTimer = null;
+let heroAutoplay = true;
+let heroInterval = 5000;
 
-            // Armar el enlace
-            const mensaje = `Hola Unetion! Quisiera solicitar un presupuesto.%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Ubicación:* ${ubicacion}%0A*Consulta:* ${consulta}`;
-            window.open(`https://wa.me/5491162803527?text=${mensaje}`, '_blank');
-            
-            // Mostrar mensaje de éxito temporal
-            contactForm.classList.add('hidden');
-            successMessage.classList.remove('hidden');
-            
-            setTimeout(() => {
-                successMessage.classList.add('hidden');
-                contactForm.classList.remove('hidden');
-                contactForm.reset();
-            }, 5000);
-        });
+function heroGoTo(idx) {
+  document.getElementById('hero-slide-' + heroCurrent).classList.remove('active');
+  document.querySelectorAll('.hero-dot')[heroCurrent].classList.remove('active');
+  document.getElementById('chip-solar').classList.toggle('chip-active', idx === 0);
+  document.getElementById('chip-ev').classList.toggle('chip-active', idx === 1);
+  document.getElementById('chip-security').classList.toggle('chip-active', idx === 2);
+  heroCurrent = idx;
+  document.getElementById('hero-slide-' + heroCurrent).classList.add('active');
+  document.querySelectorAll('.hero-dot')[heroCurrent].classList.add('active');
+}
 
-        // 4. Funcionalidad del Modal de Privacidad
-        const privacyModal = document.getElementById('privacy-modal');
-        function togglePrivacyModal(show) {
-            if(show) {
-                privacyModal.classList.remove('hidden');
-            } else {
-                privacyModal.classList.add('hidden');
-            }
-        }
+function heroNext() { heroGoTo((heroCurrent + 1) % HERO_SLIDES); }
 
-        // 5. Sistema de "Rutas" simple (Para soportar la página de Privacidad)
-        const mainView = document.getElementById('main-view');
-        const privacyView = document.getElementById('privacy-view');
+function heroStartTimer() {
+  clearInterval(heroTimer);
+  if (heroAutoplay) heroTimer = setInterval(heroNext, heroInterval);
+}
 
-        function handleRoute() {
-            const hash = window.location.hash;
-            
-            if (hash === '#privacidad') {
-                mainView.classList.add('hidden');
-                privacyView.classList.remove('hidden');
-                window.scrollTo(0,0);
-            } else {
-                // Cualquier otro caso muestra la landing
-                privacyView.classList.add('hidden');
-                mainView.classList.remove('hidden');
-            }
-        }
+heroStartTimer();
 
-        // Escuchar cuando el usuario cambia de página (apreta atrás/adelante o hace clic en un enlace)
-        window.addEventListener('hashchange', handleRoute);
-        
-        // Revisar la ruta al cargar la página por primera vez
-        handleRoute();
+window.__heroSetAutoplay = function(val) { heroAutoplay = val; heroStartTimer(); };
+window.__heroSetInterval = function(ms)  { heroInterval = ms; heroStartTimer(); };
+window.__heroSetSlide    = function(idx) { heroGoTo(idx); };
 
-        // 6. Funcionalidad del Acordeón de Servicios
-        function activateService(index) {
-            const cards = document.querySelectorAll('.service-card');
-            const contents = document.querySelectorAll('.service-content');
-            const icons = document.querySelectorAll('.service-icon');
+// ── Mobile menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+let menuOpen = false;
+hamburger.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileMenu.classList.toggle('open', menuOpen);
+  const spans = hamburger.querySelectorAll('span');
+  if (menuOpen) {
+    spans[0].style.cssText = 'transform: translateY(7px) rotate(45deg)';
+    spans[1].style.cssText = 'opacity: 0; transform: scaleX(0)';
+    spans[2].style.cssText = 'transform: translateY(-7px) rotate(-45deg)';
+  } else {
+    spans.forEach(s => s.style.cssText = '');
+  }
+});
+function closeMobile() {
+  menuOpen = false;
+  mobileMenu.classList.remove('open');
+  hamburger.querySelectorAll('span').forEach(s => s.style.cssText = '');
+}
 
-            cards.forEach((card, i) => {
-                if (i === index) {
-                    // Expandir
-                    card.classList.remove('service-collapsed');
-                    card.classList.add('service-expanded');
-                    contents[i].classList.remove('opacity-0', 'max-h-0', 'mt-0', 'pointer-events-none');
-                    contents[i].classList.add('opacity-100', 'max-h-96', 'mt-4');
-                    icons[i].classList.add('scale-110');
-                } else {
-                    // Colapsar
-                    card.classList.remove('service-expanded');
-                    card.classList.add('service-collapsed');
-                    contents[i].classList.remove('opacity-100', 'max-h-96', 'mt-4');
-                    contents[i].classList.add('opacity-0', 'max-h-0', 'mt-0', 'pointer-events-none');
-                    icons[i].classList.remove('scale-110');
-                }
-            });
-        }
-    </script>
+// ── Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// ── Form
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const nombre  = document.getElementById('nombre').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
+  const servicio = document.getElementById('servicio').value;
+  const consulta = document.getElementById('consulta').value.trim();
+
+  if (!nombre || !telefono) {
+    document.getElementById('nombre').style.borderColor = !nombre ? 'var(--red)' : '';
+    document.getElementById('telefono').style.borderColor = !telefono ? 'var(--red)' : '';
+    return;
+  }
+
+  // Build WhatsApp message
+  const zona    = document.getElementById('zona').value.trim();
+  const email   = document.getElementById('email').value.trim();
+  let msg = `Hola Unetion! 👋\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}`;
+  if (email)   msg += `\n*Email:* ${email}`;
+  if (zona)    msg += `\n*Zona:* ${zona}`;
+  if (servicio) msg += `\n*Servicio:* ${servicio}`;
+  if (consulta) msg += `\n\n*Consulta:*\n${consulta}`;
+
+  window.open(`https://wa.me/5491162803527?text=${encodeURIComponent(msg)}`, '_blank');
+
+  this.style.display = 'none';
+  document.getElementById('form-success').classList.add('show');
+});
+
+// ── Smooth nav link scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const offset = 68;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+</script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "autoplay": true,
+  "intervalo": 4,
+  "slideHero": "auto",
+  "chipStyle": "pill"
+}/*EDITMODE-END*/;
+
+function UnetionTweaks() {
+  const [values, set] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    window.__heroSetAutoplay && window.__heroSetAutoplay(values.autoplay);
+  }, [values.autoplay]);
+
+  React.useEffect(() => {
+    window.__heroSetInterval && window.__heroSetInterval(values.intervalo * 1000);
+  }, [values.intervalo]);
+
+  React.useEffect(() => {
+    if (!window.__heroSetSlide) return;
+    if (values.slideHero === 'solar') window.__heroSetSlide(0);
+    else if (values.slideHero === 'ev') window.__heroSetSlide(1);
+    else if (values.slideHero === 'security') window.__heroSetSlide(2);
+  }, [values.slideHero]);
+
+  React.useEffect(() => {
+    const chips = document.querySelectorAll('.hero-chip');
+    chips.forEach(c => {
+      c.style.borderRadius = values.chipStyle === 'pill' ? '999px' : '8px';
+    });
+  }, [values.chipStyle]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Hero — Portada">
+        <TweakToggle
+          label="Autoplay de imágenes"
+          value={values.autoplay}
+          onChange={v => set('autoplay', v)}
+        />
+        <TweakSlider
+          label="Intervalo"
+          min={2} max={12} step={1} unit="s"
+          value={values.intervalo}
+          onChange={v => set('intervalo', v)}
+        />
+        <TweakRadio
+          label="Fijar imagen en"
+          options={[
+            {value:'auto',     label:'Auto'},
+            {value:'solar',    label:'Solar'},
+            {value:'ev',       label:'EV'},
+            {value:'security', label:'Seguridad'}
+          ]}
+          value={values.slideHero}
+          onChange={v => set('slideHero', v)}
+        />
+      </TweakSection>
+      <TweakSection label="Chips de servicio">
+        <TweakRadio
+          label="Forma"
+          options={[
+            {value:'pill',   label:'Pill'},
+            {value:'square', label:'Cuadrado'}
+          ]}
+          value={values.chipStyle}
+          onChange={v => set('chipStyle', v)}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<UnetionTweaks />);
+</script>
+
+<div id="tweaks-root"></div>
 </body>
 </html>
