@@ -94,6 +94,13 @@ nav.scrolled {
   display: flex; align-items: center; gap: 12px;
   flex-shrink: 0;
 }
+.nav-logo svg {
+  height: var(--logo-h, 44px);
+  width: auto;
+  transform: translateY(var(--logo-y, 0px));
+  display: block;
+  transition: height 0.15s, transform 0.15s;
+}
 .nav-wordmark {
   font-family: var(--font-d);
   font-size: 20px;
@@ -975,6 +982,12 @@ footer {
 }
 .footer-brand {}
 .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.footer-logo svg {
+  height: calc(var(--logo-h, 44px) * 0.82);
+  width: auto;
+  transform: translateY(var(--logo-y, 0px));
+  display: block;
+}
 .footer-logo-wordmark {
   font-family: var(--font-d);
   font-size: 18px;
@@ -1147,13 +1160,7 @@ footer {
 <!-- ─── NAV ─── -->
 <nav id="main-nav">
   <a class="nav-logo" href="#">
-    <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="50,5 88,27.5 88,72.5 50,95 12,72.5 12,27.5"
-        fill="none" stroke="oklch(67% 0.18 46)" stroke-width="11" stroke-linejoin="round"/>
-      <path fill-rule="evenodd" fill="oklch(67% 0.18 46)"
-        d="M 27,24 L 73,24 L 73,78 Q 73,84 67,84 L 33,84 Q 27,84 27,78 Z
-           M 41,24 L 59,40 L 59,72 Q 59,76 50,76 Q 41,76 41,72 Z"/>
-    </svg>
+    <svg width="36" height="34" viewBox="0 0 1293 1217" fill="oklch(67% 0.18 46)" xmlns="http://www.w3.org/2000/svg"><path d="M1053,754V566c0-45.7,1-91.4,1-137c0-21.1,3.4-45.1-7.9-64c-11.4-19.1-36.7-29.2-55.1-40.2c-41-24.6-82-49.4-123-74c-51.2-30.7-102.1-62.5-154-92.1c-20.5-11.7-41.7-31.2-67-27.3c-16.3,2.5-29.2,12-43,20.5c-17.9,11-36,21.5-54,32.3c-68.3,40.9-136.7,81.6-205,122.6c-18,10.8-35.9,21.6-54,32.2c-15.5,9.1-30.8,17.3-37.8,35c-4,10.1-3.2,22.4-3.2,33v53v186v136c0,21.2-3.8,46,7.5,65c11.4,19.2,37,28.9,55.5,40c42.6,25.5,85.4,50.7,128,76.2c49.6,29.8,99.4,59.4,149,89.2c20.6,12.3,43.6,32.6,69,29.3c15.2-2,27.3-11.1,40-18.9c18.9-11.6,38-23,57-34.4c67.7-40.6,135.3-81.4,203-122c17.3-10.4,34.6-20.8,52-31c16-9.3,31.6-17.4,38.9-35.4c4.4-10.8,4.1-22.5,4.1-34C1054,788.6,1053,771.4,1053,754z M975.4,801c-4.9,11.3-15.4,17-25.4,23l-48,28.8c-55.9,33.6-112.2,66.5-168,100.4c-15.3,9.3-30.6,18.6-46,27.8c-9.9,5.9-19.2,12.6-31,13.8c-20.2,2.2-38.6-13.8-55-23.6l-116-69.6c-36.2-21.7-72.7-43.1-109-64.8c-15.1-9.1-36.9-17-46.1-32.8c-9-15.5-5.9-35.8-5.9-53V639V484v-41c0-9.8-0.6-19.9,3.4-29c5.9-13.5,17.5-19.8,29.6-27c15.3-9.2,30.7-18.2,46-27.4c55.6-33.3,111.4-66.3,167-99.6c15.3-9.2,30.7-18.2,46-27.4c10.6-6.4,20.5-13.5,33-15.2c19.2-2.5,38.5,14.3,54,23.6l119,71.4c34.6,20.8,69.1,41.9,104,62.2c9.4,5.5,18.8,10.9,28,16.7c7.4,4.7,14.2,8.8,18.7,16.7c8.7,15.3,5.3,36,5.3,53v111v157v42C979,781.5,979.6,791.2,975.4,801z"/><path d="M795,666V470c-10.8,4.5-21,11.8-31,17.8c-17.6,10.6-35.4,21-53,31.6l-20,12c-4.3,2.6-9.1,5-11.6,9.6c-2.8,5.2-2.4,11.3-2.4,17v28v107c-11.2-6.2-21.9-13.3-33-19.7c-4.2-2.4-11.5-5.2-14-9.5c-3.2-5.4-1-16.7-1-22.8v-57V373c-11.9,4.3-23.2,12.7-34,19.2c-17.6,10.6-35.6,20.6-53,31.5c-6.6,4.1-13.3,8-20,11.9c-3.1,1.8-7.1,3.4-9,6.6c-2.3,4.1-1,11.2-1,15.8v37v135v81v20c0,3.3-0.3,6.5,2.3,8.9c9.5,8.6,23.7,14.5,34.7,21.1c26.2,15.7,52.8,30.9,79,46.6l29,17.2c3.5,2.1,8.7,6.3,13,6.2c6.3-0.1,14.7-7.8,20-11c16.3-9.8,32.7-19.5,49-29.2c13.7-8.2,27.2-16.6,41-24.7c4.4-2.6,13.3-5.8,14.7-11.2c2.2-8.3,0.3-19.4,0.3-28V666z"/></svg>
     <div class="nav-wordmark">UNET<span>I</span>ON</div>
   </a>
 
@@ -1198,8 +1205,8 @@ footer {
   <div class="hero-overlay"></div>
 
   <div class="hero-content">
-    <div class="hero-eyebrow fade-up">Energía · Smart · Seguridad</div>
-    <h1 class="hero-h1 fade-up d1">Tu hogar,<br><em>inteligente</em><br>y seguro.</h1>
+    <div class="hero-eyebrow fade-up">Hogares · Comercios · Empresas</div>
+    <h1 class="hero-h1 fade-up d1">Tu espacio,<br><em>inteligente</em><br>y seguro.</h1>
 
     <!-- Service chips -->
     <div class="hero-chips fade-up d2" id="hero-chips">
@@ -1210,7 +1217,7 @@ footer {
             <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="oklch(72% 0.15 150)" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
         </div>
-        <span class="hero-chip-label">Paneles Solares</span><span class="hero-chip-sub">— ahorro energético</span>
+        <span class="hero-chip-label">Paneles Solares</span><span class="hero-chip-sub">— residencial y comercial</span>
       </div>
       <div class="hero-chip" id="chip-ev" onclick="heroGoTo(1)">
         <div class="hero-chip-icon" style="background: oklch(40% 0.14 46 / 0.7);">
@@ -1218,7 +1225,7 @@ footer {
             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="oklch(75% 0.17 50)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <span class="hero-chip-label">Cargadores EV</span><span class="hero-chip-sub">— cargá tu auto en casa</span>
+        <span class="hero-chip-label">Cargadores EV</span><span class="hero-chip-sub">— cocheras y particulares</span>
       </div>
       <div class="hero-chip" id="chip-security" onclick="heroGoTo(2)">
         <div class="hero-chip-icon" style="background: oklch(40% 0.14 25 / 0.7);">
@@ -1226,11 +1233,11 @@ footer {
             <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="oklch(72% 0.16 28)" stroke-width="2" stroke-linejoin="round"/>
           </svg>
         </div>
-        <span class="hero-chip-label">Seguridad 24/7</span><span class="hero-chip-sub">— cámaras y accesos</span>
+        <span class="hero-chip-label">Seguridad 24/7</span><span class="hero-chip-sub">— cámaras, alarmas, accesos</span>
       </div>
     </div>
 
-    <p class="hero-sub fade-up d3">Instalamos paneles solares, cargadores para autos eléctricos, domótica y seguridad. Una sola empresa, sin complicaciones.</p>
+    <p class="hero-sub fade-up d3">Instalación y mantenimiento de paneles solares, cargadores EV, domótica, redes y seguridad. Soluciones a medida para hogares, comercios y empresas.</p>
     <div class="hero-actions fade-up d3">
       <a class="btn-primary" href="#contacto">
         Cotizar mi proyecto
@@ -1293,13 +1300,13 @@ footer {
 <div class="divisions-header">
   <div class="section-eyebrow fade-up" style="color: var(--orange); justify-content: center;">Nuestras divisiones</div>
   <h2 class="section-h2 fade-up d1">Tres especialidades.<br>Una empresa de confianza.</h2>
-  <p class="section-p fade-up d2">Cada división opera con técnicos especializados y equipamiento de primeras marcas. Todo coordinado desde el primer contacto hasta la puesta en marcha.</p>
+  <p class="section-p fade-up d2">Tres especialidades coordinadas desde un solo punto de contacto. Técnicos especializados, primeras marcas y soluciones a medida para hogares, comercios y empresas.</p>
 </div>
 
 <!-- GREEN -->
 <section class="div-section div-green" id="green">
   <div class="div-img-wrap">
-    <img class="div-img" src="./img/green1.jpg" alt="Cargador EV instalado en hogar" loading="lazy">
+    <img class="div-img" src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1400&q=80" alt="Cargador EV instalado en hogar" loading="lazy">
     <div class="div-img-overlay"></div>
     <div class="div-tag">
       <span class="div-tag-dot"></span>
@@ -1310,12 +1317,12 @@ footer {
     <div class="div-content-inner fade-up">
       <div class="div-name-display">GREEN</div>
       <div class="section-eyebrow">Solar &amp; Movilidad eléctrica</div>
-      <h2 class="section-h2">Energía limpia para tu hogar.</h2>
-      <p class="section-p">Reducí hasta un 90% tu factura de luz con paneles solares y cargá tu vehículo eléctrico con energía propia. Diseñamos y ejecutamos el sistema completo.</p>
+      <h2 class="section-h2">Energía limpia para cualquier espacio.</h2>
+      <p class="section-p">Paneles solares e inversores para independizarte de los cortes y reducir los costos de luz. Cargadores EV instalados en cocheras de comercios, empresas y particulares, listos para usar.</p>
       <ul class="div-ul">
-        <li><span class="div-ul-dot"></span>Paneles solares On-Grid y Off-Grid</li>
-        <li><span class="div-ul-dot"></span>Cargadores EV (Wallbox, Tipo 1 y Tipo 2)</li>
-        <li><span class="div-ul-dot"></span>Bancos de baterías residenciales</li>
+        <li><span class="div-ul-dot"></span>Sistemas de energía solar On-Grid y Off-Grid</li>
+        <li><span class="div-ul-dot"></span>Cargadores para vehículos eléctricos</li>
+        <li><span class="div-ul-dot"></span>Bancos de baterías e inversores</li>
         <li><span class="div-ul-dot"></span>Monitoreo de generación en tiempo real</li>
       </ul>
       <a class="div-cta" href="#contacto">
@@ -1329,7 +1336,7 @@ footer {
 <!-- SMART -->
 <section class="div-section div-smart reverse" id="smart">
   <div class="div-img-wrap">
-    <img class="div-img" src="./img/smart1.jpg" alt="Panel de domótica e hogar inteligente" loading="lazy">
+    <img class="div-img" src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1400&q=80" alt="Panel de domótica e hogar inteligente" loading="lazy">
     <div class="div-img-overlay"></div>
     <div class="div-tag">
       <span class="div-tag-dot"></span>
@@ -1340,12 +1347,12 @@ footer {
     <div class="div-content-inner fade-up">
       <div class="div-name-display">SMART</div>
       <div class="section-eyebrow">Domótica &amp; Conectividad</div>
-      <h2 class="section-h2">Tu casa conectada, a tu medida.</h2>
-      <p class="section-p">Automatizá luces, persianas, climatización y seguridad desde el celular. Instalamos redes estructuradas y sistemas de integración para un control total del hogar.</p>
+      <h2 class="section-h2">Espacios inteligentes,<br>redes profesionales.</h2>
+      <p class="section-p">Automatización de luces, climatización y persianas para un verdadero espacio inteligente. Redes estructuradas con infraestructura robusta (racks, switches, access points) para tu comercio o empresa.</p>
       <ul class="div-ul">
         <li><span class="div-ul-dot"></span>Redes estructuradas y WiFi profesional</li>
-        <li><span class="div-ul-dot"></span>Domótica y automatización del hogar</li>
-        <li><span class="div-ul-dot"></span>Integración de sistemas inteligentes</li>
+        <li><span class="div-ul-dot"></span>Domótica integral residencial y comercial</li>
+        <li><span class="div-ul-dot"></span>Racks, switches y access points</li>
         <li><span class="div-ul-dot"></span>Control desde app en cualquier lugar</li>
       </ul>
       <a class="div-cta" href="#contacto">
@@ -1359,7 +1366,7 @@ footer {
 <!-- SECURITY -->
 <section class="div-section div-security" id="security">
   <div class="div-img-wrap">
-    <img class="div-img" src="./img/security1.jpg" alt="Cámara de seguridad de alta definición" loading="lazy">
+    <img class="div-img" src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1400&q=80" alt="Cámara de seguridad de alta definición" loading="lazy">
     <div class="div-img-overlay"></div>
     <div class="div-tag">
       <span class="div-tag-dot"></span>
@@ -1370,13 +1377,13 @@ footer {
     <div class="div-content-inner fade-up">
       <div class="div-name-display">SECURITY</div>
       <div class="section-eyebrow">Vigilancia &amp; Control de acceso</div>
-      <h2 class="section-h2">Tranquilidad total, 24/7.</h2>
-      <p class="section-p">Cámaras IP de alta definición, alarmas y control de acceso biométrico integrado. Monitorear tu propiedad desde el celular, en tiempo real, desde cualquier lugar.</p>
+      <h2 class="section-h2">Protección total, 24/7.</h2>
+      <p class="section-p">Videovigilancia con detección de movimiento inteligente, accesible en tiempo real desde el celular. Alarmas perimetrales, porteros inteligentes y control de acceso para hogares, comercios y empresas.</p>
       <ul class="div-ul">
-        <li><span class="div-ul-dot"></span>Cámaras CCTV e IP de alta definición</li>
+        <li><span class="div-ul-dot"></span>Videovigilancia 24/7 con detección inteligente</li>
         <li><span class="div-ul-dot"></span>Control de acceso biométrico y vehicular</li>
-        <li><span class="div-ul-dot"></span>Alarmas con notificación al celular</li>
-        <li><span class="div-ul-dot"></span>Aplicación con monitoreo 24/7</li>
+        <li><span class="div-ul-dot"></span>Sistemas de alarma perimetrales e interiores</li>
+        <li><span class="div-ul-dot"></span>Porteros inteligentes con app móvil</li>
       </ul>
       <a class="div-cta" href="#contacto">
         Consultar Seguridad
@@ -1421,7 +1428,7 @@ footer {
   <div class="why-left fade-up">
     <div class="section-eyebrow">Por qué elegirnos</div>
     <h2 class="section-h2">La diferencia<br>Unetion.</h2>
-    <p class="section-p">Somos el único proveedor que integra energía solar, domótica y seguridad. Un solo punto de contacto, trayectoria comprobada y técnicos especializados en cada proyecto.</p>
+    <p class="section-p">Somos el único proveedor que integra energía solar, domótica, redes y seguridad. Un solo punto de contacto, soluciones a medida para hogares, comercios y empresas.</p>
   </div>
   <div class="why-right">
     <div class="why-card fade-up">
@@ -1442,15 +1449,15 @@ footer {
       <div class="why-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <div class="why-card-title">Soluciones integradas</div>
-      <div class="why-card-desc">Solar, domótica y seguridad en una sola empresa. Todo conectado, todo coordinado desde el día uno.</div>
+      <div class="why-card-title">Soluciones a medida</div>
+      <div class="why-card-desc">Cada hogar, comercio y empresa tiene necesidades distintas. Diseñamos cada proyecto según tu espacio y objetivos.</div>
     </div>
     <div class="why-card fade-up d3">
       <div class="why-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zM3 9h18M9 21V9" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
       <div class="why-card-title">Primeras marcas</div>
-      <div class="why-card-desc">Solo trabajamos con equipamiento y cableado de fabricantes reconocidos. Sin atajos, sin compromisos en calidad.</div>
+      <div class="why-card-desc">Trabajamos con equipamiento Schneider Electric, ABB, Dahua, Hikvision y Huawei. Sin atajos, sin compromisos en calidad.</div>
     </div>
   </div>
 </section>
@@ -1474,8 +1481,8 @@ footer {
 <section class="contact" id="contacto">
   <div class="contact-left">
     <div class="section-eyebrow fade-up" style="color: var(--orange);">Contacto</div>
-    <h2 class="section-h2 fade-up d1">¿Listo para transformar tu hogar?</h2>
-    <p class="section-p fade-up d2">Nuestro equipo responde todas las consultas sin compromiso. Contanos tu proyecto y te asesoramos.</p>
+    <h2 class="section-h2 fade-up d1">¿Listo para transformar tu espacio?</h2>
+    <p class="section-p fade-up d2">Asesoramos a hogares, comercios y empresas sin compromiso. Contanos tu proyecto y te respondemos en menos de 24 horas.</p>
     <div class="contact-info fade-up d3">
       <div class="contact-info-item">
         <div class="contact-info-icon">
@@ -1492,8 +1499,8 @@ footer {
         </div>
         <div>
           <div class="contact-info-label">Email</div>
-          <a class="contact-info-val" href="mailto:contacto@unetion.com">
-  contacto@unetion.com
+          <a class="contact-info-val" href="/cdn-cgi/l/email-protection#7a1915140e1b190e153a0f141f0e13151454191517">
+  <span class="__cf_email__" data-cfemail="97f4f8f9e3f6f4e3f8d7e2f9f2e3fef8f9b9f4f8fa">[email&#160;protected]</span>
          </a>
         </div>
       </div>
@@ -1571,16 +1578,10 @@ footer {
   <div class="footer-top">
     <div class="footer-brand">
       <div class="footer-logo">
-        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="50,5 88,27.5 88,72.5 50,95 12,72.5 12,27.5"
-            fill="none" stroke="oklch(67% 0.18 46)" stroke-width="11" stroke-linejoin="round"/>
-          <path fill-rule="evenodd" fill="oklch(67% 0.18 46)"
-            d="M 27,24 L 73,24 L 73,78 Q 73,84 67,84 L 33,84 Q 27,84 27,78 Z
-               M 41,24 L 59,40 L 59,72 Q 59,76 50,76 Q 41,76 41,72 Z"/>
-        </svg>
+        <svg width="30" height="28" viewBox="0 0 1293 1217" fill="oklch(67% 0.18 46)" xmlns="http://www.w3.org/2000/svg"><path d="M1053,754V566c0-45.7,1-91.4,1-137c0-21.1,3.4-45.1-7.9-64c-11.4-19.1-36.7-29.2-55.1-40.2c-41-24.6-82-49.4-123-74c-51.2-30.7-102.1-62.5-154-92.1c-20.5-11.7-41.7-31.2-67-27.3c-16.3,2.5-29.2,12-43,20.5c-17.9,11-36,21.5-54,32.3c-68.3,40.9-136.7,81.6-205,122.6c-18,10.8-35.9,21.6-54,32.2c-15.5,9.1-30.8,17.3-37.8,35c-4,10.1-3.2,22.4-3.2,33v53v186v136c0,21.2-3.8,46,7.5,65c11.4,19.2,37,28.9,55.5,40c42.6,25.5,85.4,50.7,128,76.2c49.6,29.8,99.4,59.4,149,89.2c20.6,12.3,43.6,32.6,69,29.3c15.2-2,27.3-11.1,40-18.9c18.9-11.6,38-23,57-34.4c67.7-40.6,135.3-81.4,203-122c17.3-10.4,34.6-20.8,52-31c16-9.3,31.6-17.4,38.9-35.4c4.4-10.8,4.1-22.5,4.1-34C1054,788.6,1053,771.4,1053,754z M975.4,801c-4.9,11.3-15.4,17-25.4,23l-48,28.8c-55.9,33.6-112.2,66.5-168,100.4c-15.3,9.3-30.6,18.6-46,27.8c-9.9,5.9-19.2,12.6-31,13.8c-20.2,2.2-38.6-13.8-55-23.6l-116-69.6c-36.2-21.7-72.7-43.1-109-64.8c-15.1-9.1-36.9-17-46.1-32.8c-9-15.5-5.9-35.8-5.9-53V639V484v-41c0-9.8-0.6-19.9,3.4-29c5.9-13.5,17.5-19.8,29.6-27c15.3-9.2,30.7-18.2,46-27.4c55.6-33.3,111.4-66.3,167-99.6c15.3-9.2,30.7-18.2,46-27.4c10.6-6.4,20.5-13.5,33-15.2c19.2-2.5,38.5,14.3,54,23.6l119,71.4c34.6,20.8,69.1,41.9,104,62.2c9.4,5.5,18.8,10.9,28,16.7c7.4,4.7,14.2,8.8,18.7,16.7c8.7,15.3,5.3,36,5.3,53v111v157v42C979,781.5,979.6,791.2,975.4,801z"/><path d="M795,666V470c-10.8,4.5-21,11.8-31,17.8c-17.6,10.6-35.4,21-53,31.6l-20,12c-4.3,2.6-9.1,5-11.6,9.6c-2.8,5.2-2.4,11.3-2.4,17v28v107c-11.2-6.2-21.9-13.3-33-19.7c-4.2-2.4-11.5-5.2-14-9.5c-3.2-5.4-1-16.7-1-22.8v-57V373c-11.9,4.3-23.2,12.7-34,19.2c-17.6,10.6-35.6,20.6-53,31.5c-6.6,4.1-13.3,8-20,11.9c-3.1,1.8-7.1,3.4-9,6.6c-2.3,4.1-1,11.2-1,15.8v37v135v81v20c0,3.3-0.3,6.5,2.3,8.9c9.5,8.6,23.7,14.5,34.7,21.1c26.2,15.7,52.8,30.9,79,46.6l29,17.2c3.5,2.1,8.7,6.3,13,6.2c6.3-0.1,14.7-7.8,20-11c16.3-9.8,32.7-19.5,49-29.2c13.7-8.2,27.2-16.6,41-24.7c4.4-2.6,13.3-5.8,14.7-11.2c2.2-8.3,0.3-19.4,0.3-28V666z"/></svg>
         <div class="footer-logo-wordmark">UNET<span>I</span>ON</div>
       </div>
-      <p class="footer-tagline">Soluciones integrales de energía solar, domótica y seguridad para hogares en CABA y Gran Buenos Aires.</p>
+      <p class="footer-tagline">Soluciones integrales de energía solar, domótica, redes y seguridad para hogares, comercios y empresas en CABA y Gran Buenos Aires.</p>
       <div class="footer-divs">
         <span class="footer-div-badge fdb-green">GREEN</span>
         <span class="footer-div-badge fdb-blue">SMART</span>
@@ -1607,8 +1608,8 @@ footer {
       <div class="footer-col-title">Contacto</div>
       <ul class="footer-col-links">
         <li><a href="https://wa.me/5491162803527">+54 11 6280-3527</a></li>
-        <a class="contact-info-val" href="mailto:contacto@unetion.com">
-        contacto@unetion.com
+        <a class="contact-info-val" href="/cdn-cgi/l/email-protection#ed8e8283998c8e9982ad98838899848283c38e8280">
+        <span class="__cf_email__" data-cfemail="cdaea2a3b9acaeb9a28db8a3a8b9a4a2a3e3aea2a0">[email&#160;protected]</span>
          </a>
         <li><a href="#">CABA y Gran Buenos Aires</a></li>
       </ul>
@@ -1623,7 +1624,7 @@ footer {
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── Nav scroll
 const nav = document.getElementById('main-nav');
 window.addEventListener('scroll', () => {
@@ -1737,7 +1738,9 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "autoplay": true,
   "intervalo": 4,
   "slideHero": "auto",
-  "chipStyle": "pill"
+  "chipStyle": "pill",
+  "logoSize": 47,
+  "logoOffsetY": -1
 }/*EDITMODE-END*/;
 
 function UnetionTweaks() {
@@ -1764,6 +1767,14 @@ function UnetionTweaks() {
       c.style.borderRadius = values.chipStyle === 'pill' ? '999px' : '8px';
     });
   }, [values.chipStyle]);
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--logo-h', values.logoSize + 'px');
+  }, [values.logoSize]);
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--logo-y', values.logoOffsetY + 'px');
+  }, [values.logoOffsetY]);
 
   return (
     <TweaksPanel title="Tweaks">
@@ -1800,6 +1811,20 @@ function UnetionTweaks() {
           ]}
           value={values.chipStyle}
           onChange={v => set('chipStyle', v)}
+        />
+      </TweakSection>
+      <TweakSection label="Logo">
+        <TweakSlider
+          label="Tamaño"
+          min={28} max={72} step={1} unit="px"
+          value={values.logoSize}
+          onChange={v => set('logoSize', v)}
+        />
+        <TweakSlider
+          label="Ajuste vertical"
+          min={-8} max={8} step={1} unit="px"
+          value={values.logoOffsetY}
+          onChange={v => set('logoOffsetY', v)}
         />
       </TweakSection>
     </TweaksPanel>
